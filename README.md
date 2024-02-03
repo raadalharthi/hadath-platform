@@ -1,2 +1,2 @@
 # hadath-platform
-Hadath Platform, a graduation project from imam abdulrahman bin faisal university made by raad, Faisal, Rayyan, Mohammed, Abdullah, Abdulwahab and supervised by Dr. Saqib Saeed
+Hadath Platform, a graduation project from Imam Abdulrahman Bin Faisal university made by Raad, Faisal, Rayyan, Mohammed, Abdullah, Abdulwahab and supervised by Dr. Saqib Saeed
