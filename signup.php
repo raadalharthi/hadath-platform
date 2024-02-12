@@ -13,8 +13,7 @@
 
       if (empty($_SESSION['adminID']) and empty($_SESSION['userID']) ) { ?>
 
-
-    <!-- Abduleah AlHarthi -->
+      
 
     <!-- setting the main div for the form-->
     <div class="container2">

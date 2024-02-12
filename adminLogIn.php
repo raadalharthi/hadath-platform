@@ -12,7 +12,6 @@
       include_once 'include/navBar.php';
 
       if (empty($_SESSION['adminID']) and empty($_SESSION['userID']) ) { ?>
-    <!-- Abduleah AlHarthi -->
 
     <!-- setting the main div for the form-->
     <div class="container2">
@@ -55,7 +54,6 @@
             }  
         </script>  
 
-    <!-- Abduleah AlHarthi -->
 
     <?php
       }
