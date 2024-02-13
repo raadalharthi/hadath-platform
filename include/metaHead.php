@@ -4,7 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>Uni Store | <?= $title ?></title>
+<title>Hadath Platform | <?= $title ?></title>
 
 <link rel="stylesheet" href="styles.css" />
 
