@@ -65,7 +65,7 @@
                 <!-- Product Picture -->
                 <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
                   <img
-                    src="assets/phones/<?php echo $picture; ?>"
+                    src="assets/usersPicture/<?php echo $picture; ?>"
                     style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
                     class="img-fluid"
                     alt="Picture of <?php echo $name; ?>"
