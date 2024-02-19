@@ -11,7 +11,7 @@
     <?php
       include_once 'include/navigationBar.php';
 
-      if (empty($_SESSION['adminID']) == false){
+      if (empty($_SESSION['organizerID']) == false){
 
         ?>
         <div style="text-align: center; margin-top:25%;">

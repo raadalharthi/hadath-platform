@@ -1,121 +1,163 @@
-  /* this related to log in page */
+/* this related to log in page */
 
-  .login {
-    min-height: 100vh;
-  }
-  
-  .bg-image {
-    background-image: url(./assets/guestLoginPageBackground.jpg);
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .login-heading {
-    font-weight: 300;
-  }
-  
-  .btn-login {
-    font-size: 0.9rem;
-    letter-spacing: 0.05rem;
-    padding: 0.75rem 1rem;
-    background-image: linear-gradient(to right, #5DE0E6, #004AAD);
-    border: none; /* Removes the default border */
-    color: white; /* Adjust text color as needed */
-    transition: background-image 0.3s ease-in-out; /* Smooth transition for hover effect */
-  }
-  
-  .btn-login:hover {
-    background-image: linear-gradient(to right, #4bc9d6, #003a8d); /* Darker gradient on hover */
-    border: none; /* Removes the default border */
+.login {
+  min-height: 100vh;
+}
 
-  }
-  
+.bg-image {
+  background-size: cover;
+  background-position: center;
+}
 
-  /* this related to log in page */
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  background-image: linear-gradient(to right, #5de0e6, #004aad);
+  border: none; /* Removes the default border */
+  color: white; /* Adjust text color as needed */
+  transition: background-image 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.btn-login:hover {
+  background-image: linear-gradient(
+    to right,
+    #4bc9d6,
+    #003a8d
+  ); /* Darker gradient on hover */
+  border: none; /* Removes the default border */
+}
+
+/* this related to log in page */
+
+.password-strength {
+  width: 100%;
+  background: #ddd;
+  height: 10px;
+  margin-top: 10px;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0%;
+}
+
+.weak {
+  background-color: red;
+}
+
+.moderate {
+  background-color: orange;
+}
+
+.strong {
+  background-color: green;
+}
+
+.password-strength-text {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.password-rules {
+  list-style: inside;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.show-password {
+  margin-top: 20px;
+}
+
+
+
+
+
+
 
 .container2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 1000px;
-    width: 100%;
-    background: #fff; 
-    border-radius: 7px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  }
-  .container2 .registration {
-    display: none;
-  }
-  #check:checked ~ .registration {
-    display: block;
-  }
-  #check:checked ~ .login {
-    display: none;
-  }
-  #check {
-    display: none;
-  }
-  .container2 .form {
-    padding: 2rem;
-  }
-  .form header {
-    font-size: 2rem;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  .form input {
-    height: 60px;
-    width: 100%;
-    padding: 0 15px;
-    font-size: 17px;
-    margin-bottom: 1.3rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-  }
-  .form input:focus {
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-  }
-  .form a {
-    font-size: 16px;
-    color: #009579;
-    text-decoration: none;
-  }
-  .form a:hover {
-    text-decoration: underline;
-  }
-  .form input.button {
-    color: #fff;
-    background: #009579;
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-top: 1.7rem;
-    cursor: pointer;
-    transition: 0.4s;
-  }
-  .form input.button:hover {
-    background: #006653;
-  }
-  .signup {
-    font-size: 17px;
-    text-align: center;
-  }
-  .signup label {
-    color: #009579;
-    cursor: pointer;
-  }
-  .signup label:hover {
-    text-decoration: underline;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 1000px;
+  width: 100%;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.container2 .registration {
+  display: none;
+}
+#check:checked ~ .registration {
+  display: block;
+}
+#check:checked ~ .login {
+  display: none;
+}
+#check {
+  display: none;
+}
+.container2 .form {
+  padding: 2rem;
+}
+.form header {
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.form input {
+  height: 60px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 17px;
+  margin-bottom: 1.3rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+.form input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+.form a {
+  font-size: 16px;
+  color: #009579;
+  text-decoration: none;
+}
+.form a:hover {
+  text-decoration: underline;
+}
+.form input.button {
+  color: #fff;
+  background: #009579;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.form input.button:hover {
+  background: #006653;
+}
+.signup {
+  font-size: 17px;
+  text-align: center;
+}
+.signup label {
+  color: #009579;
+  cursor: pointer;
+}
+.signup label:hover {
+  text-decoration: underline;
+}
 
-
-
-  
-  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap");
 
 .size span {
   font-size: 11px;
@@ -132,7 +174,6 @@
 .gift-card:focus {
   box-shadow: none;
 }
-
 
 .pay-button:hover {
   color: #fff;
@@ -151,140 +192,135 @@
   font-size: 11px;
 }
 
-.btn btn-outline-warning btn-sm ml-2 color{
-
-    background-color: aquamarine;
+.btn btn-outline-warning btn-sm ml-2 color {
+  background-color: aquamarine;
 }
 
-
 .price {
-    text-align: center;
-    font-size: 30px;
-  }
-  
-  .cardPhoneName {
-    font-size: 25px;
-    font-weight: bold;
-  }
-  
-  .cardCategory {
-    font-size: 25px;
-  }
-  
-  
-  .hedding {
-    font-size: 20px;
-    color: #ab8181;
-  }
-  
-  .main-section {
-    position: absolute;
-    left: 50%;
-    right: 50%;
-    transform: translate(-50%, 5%);
-  }
-  
-  .left-side-product-box img {
-    width: 100%;
-  }
-  
-  .left-side-product-box .sub-img img {
-    margin-top: 5px;
-    width: 83px;
-    height: 100px;
-  }
-  
-  .right-side-pro-detail span {
-    font-size: 15px;
-  }
-  
-  .right-side-pro-detail p {
-    font-size: 25px;
-    color: #a1a1a1;
-  }
-  
-  .right-side-pro-detail .price-pro {
-    color: #E45641;
-  }
-  
-  .right-side-pro-detail .tag-section {
-    font-size: 18px;
-    color: #5D4C46;
-  }
-  
-  .pro-box-section .pro-box img {
-    width: 100%;
-    height: 200px;
-  }
-  
+  text-align: center;
+  font-size: 30px;
+}
+
+.cardPhoneName {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.cardCategory {
+  font-size: 25px;
+}
+
+.hedding {
+  font-size: 20px;
+  color: #ab8181;
+}
+
+.main-section {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 5%);
+}
+
+.left-side-product-box img {
+  width: 100%;
+}
+
+.left-side-product-box .sub-img img {
+  margin-top: 5px;
+  width: 83px;
+  height: 100px;
+}
+
+.right-side-pro-detail span {
+  font-size: 15px;
+}
+
+.right-side-pro-detail p {
+  font-size: 25px;
+  color: #a1a1a1;
+}
+
+.right-side-pro-detail .price-pro {
+  color: #e45641;
+}
+
+.right-side-pro-detail .tag-section {
+  font-size: 18px;
+  color: #5d4c46;
+}
+
+.pro-box-section .pro-box img {
+  width: 100%;
+  height: 200px;
+}
 
 .contact-form {
-    background-color: #ffebee;
-    border-radius: 6em;
-    border: solid 1px;
-    margin-top: 10%;
-    margin-bottom: 5%;
-    width: 70%;
-  }
-  .contact-form .form-control {
-    border-radius: 1rem;
-  }
-  .contact-image {
-    text-align: center;
-  }
-  .contact-image img {
-    position: relative;
-    bottom: -20px;
-    border-radius: 3rem;
-    width: 11%;
-    margin-top: -3%;
-  }
-  .contact-form form {
-    padding: 14%;
-  }
-  .contact-form form .row {
-    margin-bottom: -7%;
-  }
-  .contact-form h3 {
-    margin-bottom: 8%;
-    margin-top: -10%;
-    text-align: center;
-    color: #0062cc;
-  }
-  .contact-form .btnContact {
-    width: 50%;
-    border: none;
-    border-radius: 1rem;
-    padding: 1.5%;
-    background: #dc3545;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-  }
-  .btnContactSubmit {
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
-    color: #fff;
-    background-color: #0062cc;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .cartTable {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+  background-color: #ffebee;
+  border-radius: 6em;
+  border: solid 1px;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  width: 70%;
+}
+.contact-form .form-control {
+  border-radius: 1rem;
+}
+.contact-image {
+  text-align: center;
+}
+.contact-image img {
+  position: relative;
+  bottom: -20px;
+  border-radius: 3rem;
+  width: 11%;
+  margin-top: -3%;
+}
+.contact-form form {
+  padding: 14%;
+}
+.contact-form form .row {
+  margin-bottom: -7%;
+}
+.contact-form h3 {
+  margin-bottom: 8%;
+  margin-top: -10%;
+  text-align: center;
+  color: #0062cc;
+}
+.contact-form .btnContact {
+  width: 50%;
+  border: none;
+  border-radius: 1rem;
+  padding: 1.5%;
+  background: #dc3545;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+.btnContactSubmit {
+  width: 50%;
+  border-radius: 1rem;
+  padding: 1.5%;
+  color: #fff;
+  background-color: #0062cc;
+  border: none;
+  cursor: pointer;
+}
 
+.cartTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}

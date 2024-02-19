@@ -39,20 +39,20 @@ $id = $row['ID'];
 if ($count == 1) {
     if ($type == "Admin Sign in") {
 
-        if (empty($_SESSION['adminID'])) {
-            $_SESSION['adminID'] = array();
+        if (empty($_SESSION['organizerID'])) {
+            $_SESSION['organizerID'] = array();
         }
 
-        array_push($_SESSION['adminID'], $id);
+        array_push($_SESSION['organizerID'], $id);
 
         header('Location: adminProductsPage.php');
     } elseif ($type == "Sign in") {
 
-        if (empty($_SESSION['userID'])) {
-            $_SESSION['userID'] = array();
+        if (empty($_SESSION['attendeeID'])) {
+            $_SESSION['attendeeID'] = array();
         }
 
-        array_push($_SESSION['userID'], $id);
+        array_push($_SESSION['attendeeID'], $id);
 
         header('Location: index.php');
     }

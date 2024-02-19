@@ -13,11 +13,12 @@
   <?php
   include_once 'include/navigationBar.php';
 
-  if (empty($_SESSION['adminID']) and empty($_SESSION['userID'])) { ?>
+  if (empty($_SESSION['organizerID']) and empty($_SESSION['attendeeID'])) { ?>
 
     <div class="container-fluid ps-md-0">
       <div class="row g-0">
-        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"
+          style="background-image: url(./assets/guestLoginPageBackground.jpg);"></div>
         <div class="col-md-8 col-lg-6">
           <div class="login d-flex align-items-center py-5">
             <div class="container">
@@ -37,9 +38,9 @@
                     </div>
 
                     <div class="form-check mb-3">
-                      <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                      <label class="form-check-label" for="rememberPasswordCheck">
-                        Remember password
+                      <input class="form-check-input" type="checkbox" value="" id="rememberMeCheck">
+                      <label class="form-check-label" for="rememberMeCheck">
+                        Remember me
                       </label>
                     </div>
 
@@ -49,7 +50,14 @@
                       <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit"
                         value="login" id="btn">Login</button>
                       <div class="text-center">
-                        <a class="small" href="guestForgotPasswordPage.php">Forgot password?</a>
+                        <p style="display: inline;">Want to attend an event?</p>
+                        <a class="small" href="attendeeSignupPage.php">Sign up as attendee now</a>
+                        <br>
+                        <p style="display: inline;">Want to organize your events?</p>
+                        <a class="small" href="organizerSignupPage.php">Sign up as organizer now</a>
+                        <br>
+                        <p style="display: inline;">Forgot your password?</p>
+                        <a class="small" href="guestResetPasswordPage.php">Reset your password</a>
                       </div>
                     </div>
                   </form>
@@ -86,40 +94,20 @@
       }  
     </script>
 
-    <!-- switching to sign up form-->
-    <div class="signup">
-      <span class="signup">Don't have an account?
-        <label><a href="signup.php"> Signup</a></label>
-      </span>
-    </div>
-    <br>
-
-    <div class="signup">
-      <span class="signup">Sign In as Admin
-        <label><a href="adminLogIn.php"> Admin Dashboard</a></label>
-      </span>
-    </div>
-    </div>
-
-    <!--Signup form-->
-
-    </div>
-    </div>
-
     <?php
   } else {
     ?>
 
     <div style="text-align: center; margin-top:25%;">
       <h1>You already Logged in as
-        <?php if (empty($_SESSION['adminID'])) {
-          echo "customer";
+        <?php if (empty($_SESSION['organizerID'])) {
+          echo "attendee";
         } else {
-          echo "Admin";
+          echo "organizer";
         } ?>
       </h1>
       <br>
-      <form action="signout.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
+      <form action="signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
       </form>
     </div>
 

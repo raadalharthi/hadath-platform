@@ -43,7 +43,7 @@ switch ($title)
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?php if (empty($_SESSION['adminID']) == false) {echo "adminProductsPage.php";} else {echo "index.php";}?>"><img src="assets\logo.svg" alt="" width="75" /></a>
+        <a class="navbar-brand" href="<?php if (empty($_SESSION['organizerID']) == false) {echo "adminProductsPage.php";} else {echo "index.php";}?>"><img src="assets\logo.svg" alt="" width="75" /></a>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -56,11 +56,11 @@ switch ($title)
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <?php if (empty($_SESSION['adminID']) == false) {}
+                <?php if (empty($_SESSION['organizerID']) == false) {}
 
                 else { ?>
 
-                <?php if (empty($_SESSION['userID']) == false) {
+                <?php if (empty($_SESSION['attendeeID']) == false) {
                     ?>
                 <li class="nav-item">
                     <a class="nav-link <?= $activePS ?>" href="pastPurchase.php">Past Purchase</a>
@@ -87,7 +87,7 @@ switch ($title)
             </ul>
 
             <ul class="navbar-nav">
-            <?php if (empty($_SESSION['adminID']) == false) {}
+            <?php if (empty($_SESSION['organizerID']) == false) {}
 
             else {?>
                 <li class="nav-item">
