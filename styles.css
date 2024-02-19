@@ -1,3 +1,38 @@
+  /* this related to log in page */
+
+  .login {
+    min-height: 100vh;
+  }
+  
+  .bg-image {
+    background-image: url(./assets/guestLoginPageBackground.jpg);
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .login-heading {
+    font-weight: 300;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+    background-image: linear-gradient(to right, #5DE0E6, #004AAD);
+    border: none; /* Removes the default border */
+    color: white; /* Adjust text color as needed */
+    transition: background-image 0.3s ease-in-out; /* Smooth transition for hover effect */
+  }
+  
+  .btn-login:hover {
+    background-image: linear-gradient(to right, #4bc9d6, #003a8d); /* Darker gradient on hover */
+    border: none; /* Removes the default border */
+
+  }
+  
+
+  /* this related to log in page */
+
 .container2 {
     position: absolute;
     top: 50%;
@@ -251,3 +286,5 @@
   tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+

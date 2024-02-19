@@ -9,15 +9,11 @@ switch ($title)
             $activeContactUs = "active";
         break;
 
-        case "Sign in":
+        case "Login":
             $activeLoginPage = "active";
         break;
 
         case "Sign Up":
-            $activeLoginPage = "active";
-        break;
-
-        case "Admin Sign in":
             $activeLoginPage = "active";
         break;
 
@@ -84,7 +80,7 @@ switch ($title)
 
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link <?= $activeLoginPage ?>" href="loginPage.php">
+                    <a class="nav-link <?= $activeLoginPage ?>" href="guestLoginPage.php">
                         <span><i class="fa-solid fa-user"></i></span>
                     </a>
                 </li>

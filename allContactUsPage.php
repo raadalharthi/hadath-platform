@@ -4,12 +4,12 @@
   <head>
     <?php
       $title = "Contact Us";
-      include_once 'include/metaHead.php';
+      include_once 'include/metaData.php';
     ?>
   </head>
   <body>
     <?php
-      include_once 'include/navBar.php';
+      include_once 'include/navigationBar.php';
 
       if (empty($_SESSION['adminID']) == false){
 
