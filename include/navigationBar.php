@@ -1,6 +1,7 @@
 <?php
-$activeContactUs;
+$activeContactUsPage;
 $activeLoginPage;
+$activeOrganizerSignupPage;
 $activeCart;
 
 switch ($title)
@@ -13,8 +14,8 @@ switch ($title)
             $activeLoginPage = "active";
         break;
 
-        case "Sign Up":
-            $activeLoginPage = "active";
+        case "Organizer Signup":
+            $activeOrganizerSignupPage = "active";
         break;
 
         case "Cart":
@@ -43,7 +44,7 @@ switch ($title)
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?php if (empty($_SESSION['organizerID']) == false) {echo "adminProductsPage.php";} else {echo "index.php";}?>"><img src="assets\logo.svg" alt="" width="75" /></a>
+        <a class="navbar-brand" href="index.php"><img src="assets\logo.svg" alt="" width="75" /></a>
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"

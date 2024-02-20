@@ -3,7 +3,7 @@
 
 <head>
     <?php
-    $title = "Signup";
+    $title = "Organizer Signup";
     include_once 'include/metaData.php';
     ?>
 </head>
@@ -23,12 +23,23 @@
                                 <div class="col-md-9 col-lg-8 mx-auto">
                                     <h3 class="login-heading mb-4">Sign Up</h3>
                                     <!-- Signup Form -->
-                                    <form name="signup" action="registration.php" onsubmit="return validation()"
+                                    <form name="signup" action="authentication.php" onsubmit="return validation()"
                                         method="POST">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="clubName" name="clubName"
-                                                placeholder="Club Name">
-                                            <label for="clubName">Club Name</label>
+                                            <input type="text" class="form-control" id="organizerName" name="organizerName"
+                                                placeholder="Organizer Name">
+                                            <label for="organizerName">Organizer Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="college" name="college">
+                                                <option selected>Select College</option>
+                                                <option value="CCSIT">College of Computer Science and Information Technology</option>
+                                                <option value="CBA">College of Business administration</option>
+                                                <option value="COE">College of Engineering</option>
+                                                <option value="ARCH">College of Architecture and Planning</option>
+                                                <option value="MED">College of Medicine</option>
+                                            </select>
+                                            <label for="college">College</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="email" name="email"
@@ -56,22 +67,20 @@
                                             <li>At least one number</li>
                                             <li>At least one special character (e.g., !@#$%^&*)</li>
                                         </ul>
-                                        <div class="show-password">
-                                            <input type="checkbox" onclick="togglePasswordVisibility()"> Show Password
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="college" name="college">
-                                                <option selected>Select College</option>
-                                                <option value="1">College A</option>
-                                                <option value="2">College B</option>
-                                                <option value="3">College C</option>
-                                            </select>
-                                            <label for="college">College</label>
-                                        </div>
+
+                                        <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
 
                                         <div class="d-grid">
                                             <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2"
                                                 type="submit" id="btn">Sign Up</button>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <p style="display: inline;">You already have an account</p>
+                                            <a class="small" href="guestLoginPage.php">Login</a>
+                                            <br>
+                                            <p style="display: inline;">Want to attend an event?</p>
+                                            <a class="small" href="attendeeSignupPage.php">Sign up as attendee now</a>
                                         </div>
                                     </form>
                                 </div>
@@ -86,31 +95,16 @@
 
         <script>
             function validation() {
-                var clubName = document.signup.clubName.value;
+                var organizerName = document.signup.organizerName.value;
+                var college = document.signup.college.value;
                 var email = document.signup.email.value;
                 var password = document.signup.password.value;
                 var confirmPassword = document.signup.confirmPassword.value;
-                var college = document.signup.college.value;
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
 
-                if (clubName.trim() === "") {
-                    alert("Club name cannot be empty.");
-                    return false;
-                }
-
-                if (email.trim() === "" || !emailPattern.test(email)) {
-                    alert("Please enter a valid email address.");
-                    return false;
-                }
-
-                if (password.trim() === "" || !passwordPattern.test(password)) {
-                    alert("Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.");
-                    return false;
-                }
-
-                if (confirmPassword.trim() === "" || password !== confirmPassword) {
-                    alert("Passwords do not match.");
+                if (organizerName.trim() === "") {
+                    alert("Organizer name not provided. Please enter the organizer name.");
                     return false;
                 }
 
@@ -119,22 +113,40 @@
                     return false;
                 }
 
+                if (email.trim() === "") {
+                    alert("Email address not provided. Please enter your email address.");
+                    return false;
+                }
+
+                if (!emailPattern.test(email)) {
+                    alert("Please enter a valid email address.");
+                    return false;
+                }
+
+                if (password.trim() === "") {
+                    alert("Password not provided. Please enter your password.");
+                    return false;
+                }
+
+                if (!passwordPattern.test(password)) {
+                    alert("Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.");
+                    return false;
+                }
+
+                if (confirmPassword.trim() === "") {
+                    alert("Please re-enter your password.");
+                    return false;
+                }
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match.");
+                    return false;
+                }
+
                 return true;
             }
 
-            function togglePasswordVisibility() {
-                var password = document.getElementById("password");
-                var confirmPassword = document.getElementById("confirmPassword");
-                if (password.type === "password") {
-                    password.type = "text";
-                    confirmPassword.type = "text";
-                } else {
-                    password.type = "password";
-                    confirmPassword.type = "password";
-                }
-            }
-
-            document.getElementById("password").addEventListener("input", function() {
+            document.getElementById("password").addEventListener("input", function () {
                 var passwordValue = this.value;
                 var strengthBar = document.getElementById("passwordStrengthBar");
                 var strengthText = document.getElementById("passwordStrengthText");
@@ -145,7 +157,7 @@
                 if (passwordValue.match(/[0-9]+/)) strength += 1;
                 if (passwordValue.match(/[^a-zA-Z0-9]+/)) strength += 1;
 
-                switch(strength) {
+                switch (strength) {
                     case 0:
                         strengthBar.style.width = "0%";
                         strengthText.textContent = "";

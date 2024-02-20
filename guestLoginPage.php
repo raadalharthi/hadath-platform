@@ -44,7 +44,7 @@
                       </label>
                     </div>
 
-                    <input type="hidden" id="type" name="type" value="<?php echo $title ?>">
+                    <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
 
                     <div class="d-grid">
                       <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit"

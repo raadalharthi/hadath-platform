@@ -2,17 +2,33 @@
 session_start();
 
 include('include/connection.php');
-$type = $_POST['type'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+
+$userType = $_GET['userType'];
+$email = $_GET['email'];
+$password = $_GET['password'];
+$confirmPassword = $_GET['confirmPassword'];
+$firstName = $_GET['firstName'];
+$lastName = $_GET['lastName'];
+$organizerName = $_GET['organizerName'];
+$gender = $_GET['gender'];
+$college = $_GET['college'];
 
 //to prevent from mysqli injection  
+$userType = stripcslashes($password);
 $email = stripcslashes($email);
 $password = stripcslashes($password);
+$confirmPassword = stripcslashes($confirmPassword);
+$firstName = stripcslashes($firstName);
+$lastName = stripcslashes($lastName);
+$organizerName = stripcslashes($organizerName);
+$gender = stripcslashes($gender);
+$college = stripcslashes($college);
+
+
 $email = mysqli_real_escape_string($conn, $email);
 $password = mysqli_real_escape_string($conn, $password);
 
-if ($type == 'Sign Up'){
+if ($userType == 'Sign Up'){
 $sql = "INSERT INTO customer (email, password) VALUES ('$email', '$password');";
 $result = mysqli_query($conn, $sql);
 header('Location: loginpage.php');
@@ -20,7 +36,7 @@ header('Location: loginpage.php');
 
 else {
 
-if ($type == "Admin Sign in") {
+if ($userType == "Admin Sign in") {
     $table = "admin";
 } else {
     $table = "customer";
@@ -37,7 +53,7 @@ $count = mysqli_num_rows($result);
 $id = $row['ID'];
 
 if ($count == 1) {
-    if ($type == "Admin Sign in") {
+    if ($userType == "Admin Sign in") {
 
         if (empty($_SESSION['organizerID'])) {
             $_SESSION['organizerID'] = array();
@@ -46,7 +62,7 @@ if ($count == 1) {
         array_push($_SESSION['organizerID'], $id);
 
         header('Location: adminProductsPage.php');
-    } elseif ($type == "Sign in") {
+    } elseif ($userType == "Sign in") {
 
         if (empty($_SESSION['attendeeID'])) {
             $_SESSION['attendeeID'] = array();
