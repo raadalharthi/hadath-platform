@@ -4,40 +4,51 @@ $activeLoginPage;
 $activeOrganizerSignupPage;
 $activeCart;
 
-switch ($title)
-    {
-        case "Contact Us":
-            $activeContactUs = "active";
+switch ($title) {
+    case "Events":
+        $activeGuestAttendeeEventsPage = "active";
         break;
 
-        case "Login":
-            $activeLoginPage = "active";
+    case "Registered Events":
+        $activeAttendeeRegisteredEventsPage = "active";
         break;
 
-        case "Organizer Signup":
-            $activeOrganizerSignupPage = "active";
+    case "Contact Us":
+        $activeContactUs = "active";
         break;
 
-        case "Cart":
-            $activeCart = "active";
+    case "Notifications":
+        $activeAttendeeOrganizerNotificationsPage = "active";
         break;
 
-        case "Past Purchase":
-            $activePS = "active";
+    case "Profile":
+        $activeAttendeeOrganizerUpdateProfilePage = "active";
         break;
 
-    }
+    case "My Events":
+        $activeOrganizerMyEventsPage = "active";
+        break;
 
-    session_start();
+    case "Add Event":
+        $activeOrganizerAddEventPage = "active";
+        break;
 
-    if (empty($_SESSION['cartID']))
-    {
-        $cartQuantity = 0;
-    }
+    case "Login":
+        $activeLoginPage = "active";
+        break;
 
-    else {
+    case "Cart":
+        $activeCart = "active";
+        break;
+}
+
+session_start();
+
+if (empty($_SESSION['cartID'])) {
+    $cartQuantity = 0;
+} else {
     $cartQuantity = count($_SESSION['cartID']);
-    }
+}
 
 
 ?>
@@ -45,59 +56,93 @@ switch ($title)
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img src="assets\logo.svg" alt="" width="75" /></a>
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <?php if (empty($_SESSION['organizerID']) == false) {}
+                <?php if (empty($_SESSION['organizerID'])) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeGuestAttendeeEventsPage ?>"
+                            href="guestAttendeeEventsPage.php">Events</a>
+                    </li>
 
-                else { ?>
-
-                <?php if (empty($_SESSION['attendeeID']) == false) {
-                    ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $activePS ?>" href="pastPurchase.php">Past Purchase</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= $activeContactUs ?>" href="contactUs.php">Contact Us</a>
-                </li>
-
-                <?php
-                } else { ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $activeContactUs ?>" href="contactUs.php">Contact Us</a>
-                </li>
                 <?php }
-                }?>
-            </ul>
 
-            <ul class="navbar-nav">
+                if (empty($_SESSION['organizerID']) == false) {
+
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeOrganizerMyEventsPage ?>" href="organizerMyEventsPage.php">My
+                            Events</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeOrganizerAddEventPage ?>" href="organizerAddEventPage.php">Add
+                            Event</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeAttendeeOrganizerNotificationsPage ?>"
+                            href="attendeeOrganizerNotificationsPage.php">Notifications</a>
+                    </li>
+
+                    <?php
+
+                } else { ?>
+
+                    <?php if (empty($_SESSION['attendeeID']) == false) {
+                        ?>
+
+                        <li class="nav-item">
+                            <a class="nav-link <?= $activeAttendeeRegisteredEventsPage ?>"
+                                href="attendeeRegisteredEventsPage.php">Registered Events</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link <?= $activeAttendeeOrganizerNotificationsPage ?>"
+                                href="attendeeOrganizerNotificationsPage.php">Notifications</a>
+                        </li>
+
+
+                        <?php
+                    }
+                } ?>
+
                 <li class="nav-item">
-                    <a class="nav-link <?= $activeLoginPage ?>" href="guestLoginPage.php">
-                        <span><i class="fa-solid fa-user"></i></span>
-                    </a>
+                    <a class="nav-link <?= $activeContactUs ?>" href="allContactUsPage.php">Contact Us</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav">
-            <?php if (empty($_SESSION['organizerID']) == false) {}
+                <?php
+                if (empty($_SESSION['organizerID']) == false || empty($_SESSION['attendeeID']) == false) {
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeAttendeeOrganizerUpdateProfilePage ?>"
+                            title="Click here to see your profile" href="attendeeOrganizerUpdateProfilePage.php">
+                            <span><i class="fa-solid fa-user"></i></span>
+                        </a>
+                    </li>
 
-            else {?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $activeCart ?>" href="cart.php">
-                        <span><i class="fas fa-shopping-cart"></i></span>
-                        <span class="badge badge-pill bg-danger"><?php echo $cartQuantity; ?></span>
-            <?php }?>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="functions/signOut.php" title="Click here to sign out">
+                            <span><i class="fa-solid fa-right-from-bracket fa-lg"></i></i></span>
+                        </a>
+                    </li>
+                    <?php
+                } else {
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $activeLoginPage ?>" href="guestLoginPage.php" title="Click here to login">
+                            <span><i class="fa-solid fa-right-to-bracket fa-lg"></i></span>
+                        </a>
+                    </li>
+                    <?php
+                }
+                ?>
             </ul>
         </div>
     </div>
