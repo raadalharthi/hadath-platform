@@ -21,7 +21,7 @@
         <div style="text-align: center; margin-top:25%;">
         <h1>You not allowed to reach home page as admin please sign out first</h1>
         <br>
-        <form action="signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign out</button></form>
+        <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign out</button></form>
       </div>
     
       <?php

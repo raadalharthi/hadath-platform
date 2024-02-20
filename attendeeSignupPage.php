@@ -23,7 +23,7 @@
                 <div class="col-md-9 col-lg-8 mx-auto">
                   <h3 class="login-heading mb-4">Sign Up</h3>
                   <!-- Signup Form -->
-                  <form name="signup" action="authentication.php" onsubmit="return validation()" method="POST">
+                  <form name="signup" action="functions/authentication.php" onsubmit="return validation()" method="POST">
                     <div class="form-floating mb-3">
                       <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
                       <label for="firstName">First Name</label>
@@ -198,7 +198,7 @@
         } ?>
       </h1>
       <br>
-      <form action="signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
+      <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
       </form>
     </div>
 

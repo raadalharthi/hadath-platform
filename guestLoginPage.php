@@ -27,7 +27,7 @@
                   <h3 class="login-heading mb-4">Welcome back!</h3>
 
                   <!-- Login Form -->
-                  <form name="login" action="authentication.php" onsubmit="return validation()" method="POST">
+                  <form name="login" action="functions/authentication.php" onsubmit="return validation()" method="POST">
                     <div class="form-floating mb-3">
                       <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
                       <label for="email">Email address</label>
@@ -107,7 +107,7 @@
         } ?>
       </h1>
       <br>
-      <form action="signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
+      <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
       </form>
     </div>
 
