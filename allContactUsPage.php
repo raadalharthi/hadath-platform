@@ -26,89 +26,33 @@
 
 
 
-    <div class="container contact-form">
-      <div class="contact-image">
-        <img src="assets\contactUs\email.png" alt="Email Icon" />
-      </div>
-        <h3>Send Us a Message</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <input
-                type="text"
-                name="txtName"
-                class="form-control"
-                placeholder="Your Name *"
-                value=""
-                required
-              />
-            </div>
-            <br />
-            <div class="form-group">
-              <input
-                type="text"
-                name="txtEmail"
-                class="form-control"
-                placeholder="Your Email *"
-                value=""
-                required
-              />
-            </div>
-            <br />
-            <div class="form-group">
-              <input
-                type="text"
-                name="txtPhone"
-                class="form-control"
-                placeholder="+966"
-                value=""
-                required
-              />
-            </div>
-            <br />
-            <div class="form-group">
-              <input
-                type="submit"
-                name="btnSubmit"
-                class="btnContact"
-                value="Send Message"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <textarea
-                name="txtMsg"
-                class="form-control"
-                placeholder="Your Message *"
-                style="width: 100%; height: 150px"
-              ></textarea>
-
-              <br />
-              <br />
-
-
-
-              <div class="contact-formmap">
-                <h3>lociton</h3>
-                <p>
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d228791.7317672436!2d49.992540180581884!3d26.36304025059799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49ef85c961edaf%3A0x7b2db98f2941c78c!2sImam%20Abdulrahman%20Bin%20Faisal%20University!5e0!3m2!1sen!2ssa!4v1672229820933!5m2!1sen!2ssa"
-                    width="400"
-                    height="300"
-                    style="border: 0"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </p>
+<div class="container-fluid px-5 my-5">
+  <div class="row justify-content-center">
+    <div class="col-xl-10">
+      <div class="card border-0 rounded-3 shadow-lg overflow-hidden">
+        <div class="card-body p-0">
+          <div class="row g-0">
+            <div class="col-sm-6">
+              <!-- Header and Text for Technical Support -->
+              <div class="p-4">
+                <h3 class="fw-light">E-services Issues Technical Support</h3>
+                <p>For Employees, Faculty Members and Students</p>
+                <p>Tel: 0133331111</p>
               </div>
+              <!-- Google Maps iframe -->
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d228791.7317672436!2d49.992540180581884!3d26.36304025059799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49ef85c961edaf%3A0x7b2db98f2941c78c!2sImam%20Abdulrahman%20Bin%20Faisal%20University!5e0!3m2!1sen!2ssa!4v1672229820933!5m2!1sen!2ssa" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <div class="col-sm-6 p-4">
+              <!-- Contact Form Content Here -->
             </div>
           </div>
         </div>
-
+      </div>
     </div>
+  </div>
+</div>
+
 
 
     <?php
