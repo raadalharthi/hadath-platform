@@ -2,7 +2,6 @@
 $activeContactUsPage;
 $activeLoginPage;
 $activeOrganizerSignupPage;
-$activeCart;
 
 switch ($title) {
     case "Events":
@@ -36,21 +35,7 @@ switch ($title) {
     case "Login":
         $activeLoginPage = "active";
         break;
-
-    case "Cart":
-        $activeCart = "active";
-        break;
 }
-
-session_start();
-
-if (empty($_SESSION['cartID'])) {
-    $cartQuantity = 0;
-} else {
-    $cartQuantity = count($_SESSION['cartID']);
-}
-
-
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">

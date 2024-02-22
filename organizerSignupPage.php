@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <?php
-    $title = "Organizer Signup";
-    include_once 'include/metaData.php';
-    ?>
-</head>
 
-<body>
-    <?php
-    include_once 'include/navigationBar.php';
 
-    if (empty($_SESSION['organizerID']) and empty($_SESSION['attendeeID'])) { ?>
+<?php
+if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
 
+    <head>
+        <?php
+        $title = "Organizer Signup";
+        include_once 'include/metaData.php';
+        ?>
+    </head>
+
+    <body>
+        <?php
+        include_once 'include/navigationBar.php';
+        ?>
         <div class="container-fluid ps-md-0">
             <div class="row g-0">
                 <div class="col-md-8 col-lg-6">
@@ -33,7 +36,8 @@
                                         <div class="form-floating mb-3">
                                             <select class="form-select" id="college" name="college">
                                                 <option selected>Select College</option>
-                                                <option value="CCSIT">College of Computer Science and Information Technology</option>
+                                                <option value="CCSIT">College of Computer Science and Information Technology
+                                                </option>
                                                 <option value="CBA">College of Business administration</option>
                                                 <option value="COE">College of Engineering</option>
                                                 <option value="ARCH">College of Architecture and Planning</option>
@@ -182,28 +186,18 @@
                 }
             });
         </script>
-
         <?php
-    } else {
+
+        include_once 'include/footer.php';
         ?>
+    </body>
 
-        <div style="text-align: center; margin-top:25%;">
-            <h1>You are already logged in as
-                <?php if (empty($_SESSION['organizerID'])) {
-                    echo "attendee";
-                } else {
-                    echo "organizer";
-                } ?>
-            </h1>
-            <br>
-            <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
-            </form>
-        </div>
+    <?php
+} else {
 
-        <?php
-    }
-    include_once 'include/footer.php';
-    ?>
-</body>
+    require_once 'include/accessDenied.php';
+}
+
+?>
 
 </html>
