@@ -1,42 +1,3 @@
-<?php
-$activeContactUsPage;
-$activeLoginPage;
-$activeOrganizerSignupPage;
-
-switch ($title) {
-    case "Events":
-        $activeGuestAttendeeEventsPage = "active";
-        break;
-
-    case "Registered Events":
-        $activeAttendeeRegisteredEventsPage = "active";
-        break;
-
-    case "Contact Us":
-        $activeContactUs = "active";
-        break;
-
-    case "Notifications":
-        $activeAttendeeOrganizerNotificationsPage = "active";
-        break;
-
-    case "Profile":
-        $activeAttendeeOrganizerUpdateProfilePage = "active";
-        break;
-
-    case "My Events":
-        $activeOrganizerMyEventsPage = "active";
-        break;
-
-    case "Add Event":
-        $activeOrganizerAddEventPage = "active";
-        break;
-
-    case "Login":
-        $activeLoginPage = "active";
-        break;
-}
-?>
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">
     <div class="container-fluid">
@@ -50,7 +11,7 @@ switch ($title) {
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (empty($_SESSION['organizerID'])) { ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeGuestAttendeeEventsPage ?>"
+                        <a class="nav-link"
                             href="guestAttendeeEventsPage.php">Events</a>
                     </li>
 
@@ -60,17 +21,17 @@ switch ($title) {
 
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeOrganizerMyEventsPage ?>" href="organizerMyEventsPage.php">My
+                        <a class="nav-link " href="organizerMyEventsPage.php">My
                             Events</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeOrganizerAddEventPage ?>" href="organizerAddEventPage.php">Add
+                        <a class="nav-link" href="organizerAddEventPage.php">Add
                             Event</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeAttendeeOrganizerNotificationsPage ?>"
+                        <a class="nav-link"
                             href="attendeeOrganizerNotificationsPage.php">Notifications</a>
                     </li>
 
@@ -82,12 +43,12 @@ switch ($title) {
                         ?>
 
                         <li class="nav-item">
-                            <a class="nav-link <?= $activeAttendeeRegisteredEventsPage ?>"
+                            <a class="nav-link"
                                 href="attendeeRegisteredEventsPage.php">Registered Events</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link <?= $activeAttendeeOrganizerNotificationsPage ?>"
+                            <a class="nav-link"
                                 href="attendeeOrganizerNotificationsPage.php">Notifications</a>
                         </li>
 
@@ -97,7 +58,7 @@ switch ($title) {
                 } ?>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= $activeContactUs ?>" href="allContactUsPage.php">Contact Us</a>
+                    <a class="nav-link" href="allContactUsPage.php">Contact Us</a>
                 </li>
             </ul>
 
@@ -106,7 +67,7 @@ switch ($title) {
                 if (empty($_SESSION['organizerID']) == false || empty($_SESSION['attendeeID']) == false) {
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeAttendeeOrganizerUpdateProfilePage ?>"
+                        <a class="nav-link"
                             title="Click here to see your profile" href="attendeeOrganizerUpdateProfilePage.php">
                             <span><i class="fa-solid fa-user"></i></span>
                         </a>
@@ -121,7 +82,7 @@ switch ($title) {
                 } else {
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $activeLoginPage ?>" href="guestLoginPage.php" title="Click here to login">
+                        <a class="nav-link" href="guestLoginPage.php" title="Click here to login">
                             <span><i class="fa-solid fa-right-to-bracket fa-lg"></i></span>
                         </a>
                     </li>
