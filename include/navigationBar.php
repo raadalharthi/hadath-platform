@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ebebeb">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php"><img src="assets\logo.svg" alt="" width="75" /></a>
@@ -8,11 +7,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
+            <?php
+            session_start();
+            ?>
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (empty($_SESSION['organizerID'])) { ?>
                     <li class="nav-item">
-                        <a class="nav-link"
-                            href="guestAttendeeEventsPage.php">Events</a>
+                        <a class="nav-link" href="guestAttendeeEventsPage.php">Events</a>
                     </li>
 
                 <?php }
@@ -31,8 +33,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                            href="attendeeOrganizerNotificationsPage.php">Notifications</a>
+                        <a class="nav-link" href="attendeeOrganizerNotificationsPage.php">Notifications</a>
                     </li>
 
                     <?php
@@ -43,13 +44,11 @@
                         ?>
 
                         <li class="nav-item">
-                            <a class="nav-link"
-                                href="attendeeRegisteredEventsPage.php">Registered Events</a>
+                            <a class="nav-link" href="attendeeRegisteredEventsPage.php">Registered Events</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
-                                href="attendeeOrganizerNotificationsPage.php">Notifications</a>
+                            <a class="nav-link" href="attendeeOrganizerNotificationsPage.php">Notifications</a>
                         </li>
 
 
@@ -67,8 +66,8 @@
                 if (empty($_SESSION['organizerID']) == false || empty($_SESSION['attendeeID']) == false) {
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link"
-                            title="Click here to see your profile" href="attendeeOrganizerUpdateProfilePage.php">
+                        <a class="nav-link" title="Click here to see your profile"
+                            href="attendeeOrganizerUpdateProfilePage.php">
                             <span><i class="fa-solid fa-user"></i></span>
                         </a>
                     </li>
