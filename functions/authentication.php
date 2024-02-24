@@ -73,7 +73,7 @@ if ($userType == 'Attendee Signup') {
     // If found in 'attendee' table
     if ($countAttendee == 1) {
         $row = mysqli_fetch_array($resultAttendee, MYSQLI_ASSOC);
-        $id = $row['ID'];
+        $id = $row['attendeeID'];
         array_push($_SESSION['attendeeID'], $id);
         header('Location: ../index.php');
         exit(); // Make sure no further code is executed
@@ -89,7 +89,7 @@ if ($userType == 'Attendee Signup') {
         // If found in 'organizer' table
         if ($countOrganizer == 1) {
             $row = mysqli_fetch_array($resultOrganizer, MYSQLI_ASSOC);
-            $id = $row['ID'];
+            $id = $row['organizerID'];
             array_push($_SESSION['organizerID'], $id);
             header('Location: ../index.php');
             exit(); // Make sure no further code is executed
