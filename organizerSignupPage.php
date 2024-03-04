@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+    <?php
+    $title = "Organizer Signup";
+    include_once 'include/metaData.php';
+    ?>
+</head>
 
+<body>
+    <?php
+    include_once 'include/navigationBar.php';
 
-<?php
-if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
+    if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
 
-    <head>
-        <?php
-        $title = "Organizer Signup";
-        include_once 'include/metaData.php';
-        ?>
-    </head>
-
-    <body>
-        <?php
-        include_once 'include/navigationBar.php';
         ?>
         <div class="container-fluid ps-md-0">
             <div class="row g-0">
@@ -24,14 +22,23 @@ if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-9 col-lg-8 mx-auto">
-                                    <h3 class="login-heading mb-4">Sign Up</h3>
+                                    <h3 class="login-heading mb-4">Organizer Sign Up</h3>
                                     <!-- Signup Form -->
-                                    <form name="signup" action="functions/authentication.php" onsubmit="return validation()"
-                                        method="POST">
+                                    <form name="signup" action="functions/organizerValidation.php"
+                                        onsubmit="return validation()" method="POST">
+
+                                        <!-- Image Upload Section -->
+                                        <div class="form-floating mb-3">
+                                            <input type="file" class="form-control" id="image" name="image" accept="image/*"
+                                                onchange="convertToBase64();">
+                                            <label for="image">Upload Image</label>
+                                            <input type="hidden" id="imageBase64" name="imageBase64">
+                                        </div>
+
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="organizerName" name="organizerName"
                                                 placeholder="Organizer Name">
-                                            <label for="organizerName">Organizer Name</label>
+                                            <label for="organizerName">Organizer Name<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <select class="form-select" id="college" name="college">
@@ -43,34 +50,27 @@ if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
                                                 <option value="ARCH">College of Architecture and Planning</option>
                                                 <option value="MED">College of Medicine</option>
                                             </select>
-                                            <label for="college">College</label>
+                                            <label for="college">College<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="email" name="email"
                                                 placeholder="name@example.com">
-                                            <label for="email">Email address</label>
+                                            <label for="email">Email address<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="password" name="password"
                                                 placeholder="Password">
-                                            <label for="password">Password</label>
+                                            <label for="password">Password<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="confirmPassword"
                                                 name="confirmPassword" placeholder="Re-enter Password">
-                                            <label for="confirmPassword">Re-enter Password</label>
+                                            <label for="confirmPassword">Re-enter Password<span style="color: red;"> *</span></label>
                                         </div>
                                         <div id="passwordStrength" class="password-strength mb-3">
                                             <div id="passwordStrengthBar" class="strength-bar"></div>
                                         </div>
                                         <div id="passwordStrengthText" class="password-strength-text mb-3"></div>
-                                        <ul class="password-rules">
-                                            <li>At least 8 characters long - the more, the better</li>
-                                            <li>At least one uppercase letter</li>
-                                            <li>At least one lowercase letter</li>
-                                            <li>At least one number</li>
-                                            <li>At least one special character (e.g., !@#$%^&*)</li>
-                                        </ul>
 
                                         <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
 
@@ -104,11 +104,17 @@ if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
                 var email = document.signup.email.value;
                 var password = document.signup.password.value;
                 var confirmPassword = document.signup.confirmPassword.value;
+                var organizerNamePattern = /^[A-Za-z ]+$/;
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
 
                 if (organizerName.trim() === "") {
                     alert("Organizer name not provided. Please enter the organizer name.");
+                    return false;
+                }
+
+                if (!organizerNamePattern.test(organizerName)) {
+                    alert("Organizer name can only contain English letters. Please enter a valid name.");
                     return false;
                 }
 
@@ -185,6 +191,17 @@ if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
                         break;
                 }
             });
+
+            function convertToBase64() {
+                var file = document.getElementById('image').files[0];
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    document.getElementById('imageBase64').value = reader.result;
+                }
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
         </script>
         <?php
 
@@ -193,11 +210,11 @@ if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) { ?>
     </body>
 
     <?php
-} else {
+    } else {
 
-    require_once 'include/accessDenied.php';
-}
+        require_once 'include/accessDenied.php';
+    }
 
-?>
+    ?>
 
 </html>
