@@ -12,7 +12,7 @@
   <?php
   include_once 'include/navigationBar.php';
 
-  if (empty($_SESSION['organizerID']) and empty($_SESSION['attendeeID'])) { ?>
+  if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) { ?>
 
     <div class="container-fluid ps-md-0">
       <div class="row g-0">
@@ -21,16 +21,27 @@
             <div class="container">
               <div class="row">
                 <div class="col-md-9 col-lg-8 mx-auto">
-                  <h3 class="login-heading mb-4">Sign Up</h3>
+                  <h3 class="login-heading mb-4">Sign Up as Attendee</h3>
                   <!-- Signup Form -->
-                  <form name="signup" action="functions/authentication.php" onsubmit="return validation()" method="POST">
+                  <form name="signup" action="functions/attendeeValidation.php" onsubmit="return validation()"
+                    method="POST">
+
+                    <!-- Image Upload Section -->
+                    <div class="form-floating mb-3">
+                      <input type="file" class="form-control" id="image" name="image" accept="image/*"
+                        onchange="convertToBase64();">
+                      <label for="image">Upload Image</label>
+                      <input type="hidden" id="imageBase64" name="imageBase64">
+                    </div>
+
+                    <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
                     <div class="form-floating mb-3">
                       <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
-                      <label for="firstName">First Name</label>
+                      <label for="firstName">First Name<span style="color: red;"> *</span></label>
                     </div>
                     <div class="form-floating mb-3">
                       <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name">
-                      <label for="lastName">Last Name</label>
+                      <label for="lastName">Last Name<span style="color: red;"> *</span></label>
                     </div>
                     <div class="form-floating mb-3">
                       <select class="form-select" id="gender" name="gender">
@@ -38,32 +49,41 @@
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                       </select>
-                      <label for="gender">Gender</label>
+                      <label for="gender">Gender<span style="color: red;"> *</span></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input type="date" class="form-control" id="birthDate" name="birthDate">
+                      <label for="birthDate">Birth Date<span style="color: red;"> *</span></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <select class="form-select" id="college" name="college">
+                        <option selected>Select College</option>
+                        <option value="CCSIT">College of Computer Science and Information Technology
+                        </option>
+                        <option value="CBA">College of Business administration</option>
+                        <option value="COE">College of Engineering</option>
+                        <option value="ARCH">College of Architecture and Planning</option>
+                        <option value="MED">College of Medicine</option>
+                      </select>
+                      <label for="college">College<span style="color: red;"> *</span></label>
                     </div>
                     <div class="form-floating mb-3">
                       <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
-                      <label for="email">Email address</label>
+                      <label for="email">Email address<span style="color: red;"> *</span></label>
                     </div>
                     <div class="form-floating mb-3">
                       <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                      <label for="password">Password</label>
+                      <label for="password">Password<span style="color: red;"> *</span></label>
                     </div>
                     <div class="form-floating mb-3">
                       <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
                         placeholder="Re-enter Password">
-                      <label for="confirmPassword">Re-enter Password</label>
+                      <label for="confirmPassword">Re-enter Password<span style="color: red;"> *</span></label>
                     </div>
                     <div id="passwordStrength" class="password-strength mb-3">
                       <div id="passwordStrengthBar" class="strength-bar"></div>
                     </div>
                     <div id="passwordStrengthText" class="password-strength-text mb-3"></div>
-                    <ul class="password-rules">
-                      <li>At least 8 characters long - the more, the better</li>
-                      <li>At least one uppercase letter</li>
-                      <li>At least one lowercase letter</li>
-                      <li>At least one number</li>
-                      <li>At least one special character (e.g., !@#$%^&*)</li>
-                    </ul>
 
                     <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
 
@@ -95,9 +115,12 @@
         var firstName = document.signup.firstName.value;
         var lastName = document.signup.lastName.value;
         var gender = document.signup.gender.value;
+        var birthDate = document.signup.birthDate.value;
+        var college = document.signup.college.value;
         var email = document.signup.email.value;
         var password = document.signup.password.value;
         var confirmPassword = document.signup.confirmPassword.value;
+        var attendeeNamePattern = /^[A-Za-z]+$/;
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/;
 
@@ -106,13 +129,47 @@
           return false;
         }
 
+        if (!attendeeNamePattern.test(firstName)) {
+          alert("First name can only contain English letters. Please enter a valid name.");
+          return false;
+        }
+
         if (lastName.trim() === "") {
           alert("Last name not provided. Please enter your last name.");
           return false;
         }
 
+        if (!attendeeNamePattern.test(lastName)) {
+          alert("Last name can only contain English letters. Please enter a valid name.");
+          return false;
+        }
+
         if (gender === "Select your gender" || gender === "") {
           alert("Please select your gender.");
+          return false;
+        }
+
+        if (birthDate.trim() === "") {
+          alert("Birth date not provided. Please enter your birth date.");
+          return false;
+        }
+
+        // Check if the user is older than 10 years
+        var birthDateObject = new Date(birthDate);
+        var today = new Date();
+        var age = today.getFullYear() - birthDateObject.getFullYear();
+        var m = today.getMonth() - birthDateObject.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDateObject.getDate())) {
+          age--;
+        }
+
+        if (age < 10) {
+          alert("You must be older than 10 years to sign up.");
+          return false;
+        }
+
+        if (college === "Select College" || college === "") {
+          alert("Please select a college.");
           return false;
         }
 
@@ -183,29 +240,30 @@
             break;
         }
       });
+
+      function convertToBase64() {
+        var file = document.getElementById('image').files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          document.getElementById('imageBase64').value = reader.result;
+        }
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
     </script>
-
     <?php
-  } else {
+
+    include_once 'include/footer.php';
     ?>
+  </body>
 
-    <div style="text-align: center; margin-top:25%;">
-      <h1>You are already logged in as
-        <?php if (empty($_SESSION['organizerID'])) {
-          echo "attendee";
-        } else {
-          echo "organizer";
-        } ?>
-      </h1>
-      <br>
-      <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign Out</button>
-      </form>
-    </div>
+  <?php
+  } else {
 
-    <?php
+    require_once 'include/accessDenied.php';
   }
-  include_once 'include/footer.php';
+
   ?>
-</body>
 
 </html>

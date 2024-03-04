@@ -1,48 +1,4 @@
 <?php 
-session_start();
-
-include('../include/connection.php');
-
-$userType = $_POST['userType'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-$confirmPassword = $_POST['confirmPassword'];
-
-// to prevent from mysqli injection  
-$userType = stripcslashes($userType);
-$email = stripcslashes($email);
-$password = stripcslashes($password);
-$confirmPassword = stripcslashes($confirmPassword);
-
-$userType = mysqli_real_escape_string($conn, $userType);
-$email = mysqli_real_escape_string($conn, $email);
-$password = mysqli_real_escape_string($conn, $password);
-$confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
-
-if ($userType == 'Attendee Signup') {
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $gender = $_POST['gender'];
-
-    $firstName = stripcslashes($firstName);
-    $lastName = stripcslashes($lastName);
-    $gender = stripcslashes($gender);
-
-    $firstName = mysqli_real_escape_string($conn, $firstName);
-    $lastName = mysqli_real_escape_string($conn, $lastName);
-    $gender = mysqli_real_escape_string($conn, $gender);
-
-} elseif ($userType == 'Organizer Signup') {
-    $organizerName = $_POST['organizerName'];
-    $college = $_POST['college'];
-
-    $organizerName = stripcslashes($organizerName);
-    $college = stripcslashes($college);
-
-    $organizerName = mysqli_real_escape_string($conn, $organizerName);
-    $college = mysqli_real_escape_string($conn, $college);
-}
-
 
 if ($userType == 'Attendee Signup') {
     $sql = "INSERT INTO attendee (firstName, lastName, email, password, gender) VALUES ('$firstName', '$lastName', '$email', '$password', '$gender');";
