@@ -27,7 +27,7 @@
                                     <h3 class="login-heading mb-4">Please enter your email address</h3>
 
                                     <!-- Login Form -->
-                                    <form name="login" action="functions/authentication.php" onsubmit="return validation()"
+                                    <form name="login" action="functions/resetPasswordValidation.php" onsubmit="return validation()"
                                         method="POST">
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="email" name="email"
@@ -57,7 +57,6 @@
         <script>
             function validation() {
                 var email = document.login.email.value;
-                var password = document.login.password.value;
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for email validation
 
                 if (email.length == "") {

@@ -57,7 +57,7 @@ if (formIsValid()) {
         $_SESSION['otp'] = $otp; // Store the OTP for verification
 
         // Redirect to OTP verification page
-        header('Location: ../otpVerification.php');
+        header('Location: ../otpVerificationPage.php');
         exit;
     } else {
         // Handle error in sending OTP

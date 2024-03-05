@@ -13,8 +13,8 @@
     include_once 'include/navigationBar.php';
 
     if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
-
         ?>
+
         <div class="container-fluid ps-md-0">
             <div class="row g-0">
                 <div class="col-md-8 col-lg-6">
@@ -38,7 +38,8 @@
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="organizerName" name="organizerName"
                                                 placeholder="Organizer Name">
-                                            <label for="organizerName">Organizer Name<span style="color: red;"> *</span></label>
+                                            <label for="organizerName">Organizer Name<span style="color: red;">
+                                                    *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <select class="form-select" id="college" name="college">
@@ -65,7 +66,8 @@
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="confirmPassword"
                                                 name="confirmPassword" placeholder="Re-enter Password">
-                                            <label for="confirmPassword">Re-enter Password<span style="color: red;"> *</span></label>
+                                            <label for="confirmPassword">Re-enter Password<span style="color: red;">
+                                                    *</span></label>
                                         </div>
                                         <div id="passwordStrength" class="password-strength mb-3">
                                             <div id="passwordStrengthBar" class="strength-bar"></div>

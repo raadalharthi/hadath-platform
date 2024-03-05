@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect to OTP verification page on successful validation
         echo "<script type='text/javascript'>";
-        echo "window.location.href = 'attendeeSendOTP.php';";
+        echo "window.location.href = 'sendOTP.php';";
         echo "</script>";
     }
 } else {

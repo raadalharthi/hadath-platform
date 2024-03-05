@@ -19,48 +19,23 @@
 
     if ($userType == 'Organizer Signup') {
         $backgroundPath = "assets/organizerSignupPageBackground.jpg";
+        $path = "functions/organizerRegisterInDB.php";
     }
 
     if ($userType == 'Attendee Signup') {
         $backgroundPath = "assets/attendeeSignupPageBackground.jpg";
-        echo $_SESSION['imageBase64'];
-        $_SESSION['imageBase64'] = $image;
-        $_SESSION['firstName'] = $firstName;
-        $_SESSION['lastName'] = $lastName;
-        $_SESSION['gender'] = $gender;
-        $_SESSION['birthDate'] = $birthDate;
-        $_SESSION['college'] = $college;
-        $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $path = "functions/attendeeRegisterInDB.php";
     }
 
-    // Check if form is submitted
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['enterdOTP'])) {
-        // Check if OTP matches the session
-        if (isset($_SESSION['otp']) && $_POST['enterdOTP'] == $_SESSION['otp']) {
-
-            if ($userType == 'Organizer Signup') {
-                require_once 'functions/o.php';
-            }
-
-            if ($userType == 'Attendee Signup') {
-                require_once 'functions/a.php';
-            }
-        } else {
-            // Set error message if OTP is incorrect
-            $errorMessage = 'Invalid OTP. Please try again.';
-        }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Set error message if no OTP is submitted
-        $errorMessage = 'Please enter the OTP.';
+    if ($userType == 'Reset Password') {
+        $backgroundPath = "assets/guestLoginPageBackground.jpg";
+        $path = "guestSetNewPassword.php";
     }
     ?>
 </head>
 
 <body>
     <?php include_once 'include/navigationBar.php'; ?>
-
     <div class="container-fluid ps-md-0">
         <div class="row g-0">
             <div class="col-md-8 col-lg-6">
@@ -72,7 +47,7 @@
                                 <?php if (!empty($errorMessage))
                                     echo "<p style='color:red;'>$errorMessage</p>"; ?>
                                 <!-- OTP Verification Form -->
-                                <form name="verifyOTP" action="" method="POST">
+                                <form name="verifyOTP" action="<?php echo $path;?>" method="POST">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="enterdOTP" name="enterdOTP"
                                             placeholder="Enter OTP" required>
