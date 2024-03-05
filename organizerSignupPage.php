@@ -5,16 +5,16 @@
     <?php
     $title = "Organizer Signup";
     include_once 'include/metaData.php';
-    ?>
-</head>
 
-<body>
-    <?php
-    include_once 'include/navigationBar.php';
+    if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) {
+        require_once 'include\accessDenied.php';
+    } else { ?>
+    </head>
 
-    if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
+    <body>
+        <?php
+        include_once 'include/navigationBar.php';
         ?>
-
         <div class="container-fluid ps-md-0">
             <div class="row g-0">
                 <div class="col-md-8 col-lg-6">
@@ -212,11 +212,7 @@
     </body>
 
     <?php
-    } else {
-
-        require_once 'include/accessDenied.php';
     }
-
     ?>
 
 </html>

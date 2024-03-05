@@ -1,5 +1,6 @@
 <?php
 
+
 // Flag to track validation status
 $validationPassed = true;
 $messages = [];
@@ -44,9 +45,7 @@ if ($userType == "Reset Password") {
         if (mysqli_num_rows($resultAttendee) == 0 && mysqli_num_rows($resultOrganizer) == 0) {
             $messages[] = "There is no email address like this registered with us.";
             $validationPassed = false;
-        }
-        
-        else {
+        } else {
             $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
 
             if (empty($email)) {

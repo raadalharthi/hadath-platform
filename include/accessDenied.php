@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <?php
     $title = "Access Denied";
@@ -38,6 +39,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="text-center" style="width: 100%;">
         <h1 class="display-3">Access Denied</h1>
@@ -53,7 +55,7 @@
         var timeLeft = 5;
         var countdownElement = document.getElementById('countdown');
 
-        var timerId = setInterval(function() {
+        var timerId = setInterval(function () {
             timeLeft--;
             countdownElement.textContent = timeLeft;
 
@@ -63,4 +65,5 @@
         }, 1000);
     </script>
 </body>
+
 </html>

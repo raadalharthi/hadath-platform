@@ -1,5 +1,6 @@
 <?php
 
+
 // Flag to track validation status
 $validationPassed = true;
 $messages = [];

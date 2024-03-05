@@ -3,10 +3,10 @@
 
 <head>
     <?php
-    $title = "Add Event";
+    $title = "Notifications";
     include_once 'include/metaData.php';
 
-    if (empty($_SESSION['organizerID'])) {
+    if (empty($_SESSION['attendeeID'])) {
         require_once 'include\accessDenied.php';
     } else { ?>
     </head>
@@ -16,7 +16,7 @@
         include_once 'include/navigationBar.php';
         ?>
 
-        <h1>organizerAddEventPage.php</h1>
+        <h1>attendeeNotificationsPage.php</h1>
 
         <?php
 

@@ -1,4 +1,7 @@
 <?php
+
+
+
 session_start(); // Start or resume the current session
 
 require_once '../include/connection.php';
@@ -57,4 +60,5 @@ if ($countAttendee == 1) {
         exit();
     }
 }
+
 ?>

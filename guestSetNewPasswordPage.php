@@ -6,14 +6,17 @@
     <?php
     $title = "Confirm New Password";
     include_once 'include/metaData.php';
-    ?>
+
+    if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER']) || !empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) {
+        require_once 'include\accessDenied.php';
+    } else {
+        ?>
 </head>
 
 <body>
     <?php
     include_once 'include/navigationBar.php';
-
-    if (empty($_SESSION['organizerID']) and empty($_SESSION['attendeeID'])) { ?>
+    ?>
 
         <div class="container-fluid ps-md-0">
             <div class="row g-0">
@@ -129,26 +132,9 @@
         </script>
 
         <?php
-    } else {
-        ?>
+        include_once 'include/footer.php';
 
-        <div style="text-align: center; margin-top:25%;">
-            <h1>You already Logged in as
-                <?php if (empty($_SESSION['organizerID'])) {
-                    echo "attendee";
-                } else {
-                    echo "organizer";
-                } ?>
-            </h1>
-            <br>
-            <form action="functions/signOut.php" method="POST"><button class="btn btn-outline-success" type="submit">Sign
-                    Out</button>
-            </form>
-        </div>
-
-        <?php
     }
-    include_once 'include/footer.php';
     ?>
 </body>
 
