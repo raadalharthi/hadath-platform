@@ -5,7 +5,6 @@ $validationPassed = true;
 $messages = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    session_start();
 
     include('../include/connection.php');
 
@@ -106,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect to OTP verification page on successful validation
         echo "<script type='text/javascript'>";
-        echo "window.location.href = 'sendOTP.php';";
+        echo "window.location.href = 'organizerSendOTP.php';";
         echo "</script>";
     }
 } else {

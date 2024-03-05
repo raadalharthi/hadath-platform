@@ -7,9 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <?php
-            session_start();
-            ?>
+
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (empty($_SESSION['organizerID'])) { ?>

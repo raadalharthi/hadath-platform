@@ -46,8 +46,8 @@
                     <div class="form-floating mb-3">
                       <select class="form-select" id="gender" name="gender">
                         <option selected>Select your gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
                       </select>
                       <label for="gender">Gender<span style="color: red;"> *</span></label>
                     </div>
@@ -130,7 +130,7 @@
         }
 
         if (!attendeeNamePattern.test(firstName)) {
-          alert("First name can only contain English letters. Please enter a valid name.");
+          alert("First name can only contain English letters. Please enter a valid first name.");
           return false;
         }
 
@@ -140,7 +140,7 @@
         }
 
         if (!attendeeNamePattern.test(lastName)) {
-          alert("Last name can only contain English letters. Please enter a valid name.");
+          alert("Last name can only contain English letters. Please enter a valid last name.");
           return false;
         }
 

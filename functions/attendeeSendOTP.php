@@ -47,23 +47,14 @@ function sendOTP($recipientEmail) {
 
 if (formIsValid()) {
     // Capture all necessary information from the form
-    $organizerName = $_SESSION['organizerName'];
-    $college = $_SESSION['college'];
     $email = $_SESSION['email']; // Make sure to sanitize this
-    $password = $_SESSION['password']; // Ideally, hash this before storing
 
     // Now send the OTP
     $otp = sendOTP($email);
 
     if ($otp !== false) {
         // Store the form data and OTP in the session or a database temporarily
-        $_SESSION['signup_data'] = [
-            'organizerName' => $organizerName,
-            'college' => $college,
-            'email' => $email,
-            'password' => $password, // Remember to securely hash passwords before storing them!
-            'otp' => $otp // Store the OTP for verification
-        ];
+        $_SESSION['otp'] = $otp; // Store the OTP for verification
 
         // Redirect to OTP verification page
         header('Location: ../otpVerification.php');
