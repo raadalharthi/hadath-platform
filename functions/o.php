@@ -2,8 +2,8 @@
 
 session_start();
 
-if (isset($_POST['otp'])) {
-    $userOtp = $_POST['otp'];
+if (isset($_SESSION['enterdOTP'])) {
+    $userOtp = $_SESSION['enterdOTP'];
     $sessionOtp = $_SESSION['otp'] ?? ''; // Safe fallback to ensure there's no undefined index error
 
     if ($userOtp == $sessionOtp) {
@@ -12,27 +12,24 @@ if (isset($_POST['otp'])) {
         // Hash the password before storing it in the database
 
         // Store additional user details in session if needed
-
+        
         $_SESSION['imageBase64'] = $image;
-        $_SESSION['firstName'] = $firstName;
-        $_SESSION['lastName'] = $lastName;
-        $_SESSION['gender'] = $gender;
-        $_SESSION['birthDate'] = $birthDate;
+        $_SESSION['organizerName'] = $organizerName;
         $_SESSION['college'] = $college;
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert the user data into the database, using the hashed password
-        $sql = "INSERT INTO organizer (firstName, lastName, email, password, gender, college, attendeeImage, birthDate) VALUES ('$firstName', '$lastName', '$email', '$password', '$gender', '$college', '$image', $birthDate');";
+        $sql = "INSERT INTO organizer (organizerName, email, password, college, organizerImage) VALUES ('$organizerName', '$email', '$password', '$college', '$image');";
         $result = mysqli_query($conn, $sql);
 
         session_destroy();
 
         session_start();
 
-        if (empty($_SESSION['attendeeID'])) {
-            $_SESSION['attendeeID'] = array();
+        if (empty($_SESSION['organizerID'])) {
+            $_SESSION['organizerID'] = array();
         }
 
         // Redirect to the home/index page after successful registration
