@@ -32,29 +32,43 @@
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
+            echo '<div class="row">';
+
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
                 // Assuming eventImage is stored as a BLOB in the database
                 $imageData = $row['eventImage'];
                 $base64Image = base64_encode($imageData); // Encode the binary data as base64
                 ?>
+
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
-                        <a href="#"><img class="card-img-top" src="data:image/jpeg;base64,<?php echo $base64Image; ?>"
-                                alt="Event Image" style="width:700px;height:400px;"></a>
+                        <!-- Replace '#' with the actual link -->
+                        <a href="your-link-here">
+                            <?php if (isset($base64Image)): ?>
+                                <img class="card-img-top"
+                                    src="data:image/jpeg;base64,<?php echo htmlspecialchars($base64Image, ENT_QUOTES, 'UTF-8'); ?>"
+                                    alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php endif; ?>
+                        </a>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a href="#">
-                                    <?php echo $row["title"]; ?>
+                                <!-- Replace '#' with the actual link -->
+                                <a href="your-link-here">
+                                    <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>
                                 </a>
                             </h4>
                             <p class="card-text">
-                                <?php echo $row["description"]; ?>
+                                <?php echo htmlspecialchars($row["description"], ENT_QUOTES, 'UTF-8'); ?>
                             </p>
                         </div>
                     </div>
                 </div>
+
                 <?php
+                if ($result->num_rows % 2 == 0) {
+                    echo '</div><div class="row">';
+                }
             }
 
             // End of the row div
