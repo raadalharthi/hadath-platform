@@ -21,8 +21,7 @@
     <div class="container">
 
         <!-- Page Heading -->
-        <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
+        <h1 class="my-4">Events
         </h1>
 
         <?php
