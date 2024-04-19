@@ -27,7 +27,6 @@
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $gender = $row["gender"] == 'M' ? 'Male' : 'Female';
-                $attendeeImageData = base64_encode($row["attendeeImage"]);
                 $birthDate = new DateTime($row["birthDate"]);
                 $today = new DateTime('today');
                 $age = $birthDate->diff($today)->y;
@@ -67,7 +66,7 @@
                                     <div class="card" style="width: 100%;">
                                         <div class="row g-0">
                                             <div class="col-md-4 gradient-custom">
-                                                <img src="data:image/jpeg;base64,<?php echo $attendeeImageData; ?>"
+                                                <img src="<?php echo $row["attendeeImage"]; ?>"
                                                     alt="User Picture" class="img-fluid my-5"
                                                     style="width: 300px; height: 300px; object-fit: cover;" />
                                                 <h5>

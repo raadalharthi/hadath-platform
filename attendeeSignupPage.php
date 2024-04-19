@@ -8,15 +8,15 @@
 
   if (!empty($_SESSION['organizerID']) || !empty($_SESSION['attendeeID'])) {
     require_once 'include\accessDenied.php';
-} else { ?>
+  } else { ?>
 
-</head>
+  </head>
 
-<body>
-  <?php
-  include_once 'include/navigationBar.php';
+  <body>
+    <?php
+    include_once 'include/navigationBar.php';
 
-  ?>
+    ?>
 
     <div class="container-fluid ps-md-0">
       <div class="row g-0">
@@ -28,14 +28,12 @@
                   <h3 class="login-heading mb-4">Sign Up as Attendee</h3>
                   <!-- Signup Form -->
                   <form name="signup" action="functions/attendeeValidation.php" onsubmit="return validation()"
-                    method="POST">
+                    method="POST" enctype="multipart/form-data">
 
                     <!-- Image Upload Section -->
                     <div class="form-floating mb-3">
-                      <input type="file" class="form-control" id="image" name="image" accept="image/*"
-                        onchange="convertToBase64();">
+                      <input type="file" class="form-control" id="image" name="image" accept="image/*">
                       <label for="image">Upload Image</label>
-                      <input type="hidden" id="imageBase64" name="imageBase64">
                     </div>
 
                     <input type="hidden" id="userType" name="userType" value="<?php echo $title ?>">
@@ -244,17 +242,6 @@
             break;
         }
       });
-
-      function convertToBase64() {
-        var file = document.getElementById('image').files[0];
-        var reader = new FileReader();
-        reader.onloadend = function () {
-          document.getElementById('imageBase64').value = reader.result;
-        }
-        if (file) {
-          reader.readAsDataURL(file);
-        }
-      }
     </script>
     <?php
 
@@ -263,7 +250,7 @@
   </body>
 
   <?php
-  } 
+  }
   ?>
 
 </html>

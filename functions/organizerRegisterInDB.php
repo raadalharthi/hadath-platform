@@ -3,7 +3,7 @@
 
 session_start();
 
-$image = $_SESSION['imageBase64'];
+$image = $_SESSION['image'];
 $organizerName = $_SESSION['organizerName'];
 $college = $_SESSION['college'];
 $email = $_SESSION['email'];

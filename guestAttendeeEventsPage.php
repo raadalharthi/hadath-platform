@@ -7,7 +7,7 @@
     include_once 'include/metaData.php';
 
     if (!empty($_SESSION['organizerID'])) {
-        require_once 'include\accessDenied.php';
+        require_once 'include/accessDenied.php';
     }
     ?>
 </head>
@@ -21,8 +21,7 @@
     <div class="container">
 
         <!-- Page Heading -->
-        <h1 class="my-4">Events
-        </h1>
+        <h1 class="my-4">Events</h1>
 
         <?php
         require_once 'include/connection.php';
@@ -31,86 +30,64 @@
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            echo '<div class="row">';
+            echo '<div class="row">'; // Start the first row
+        
+            // Counter to track number of cards
+            $counter = 0;
 
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
-                // Assuming eventImage is stored as a BLOB in the database
-                $imageData = $row['eventImage'];
-                $base64Image = base64_encode($imageData); // Encode the binary data as base64
                 ?>
-
-                <div class="col-lg-6 mb-4">
+                <div class="col-6 mb-4">
                     <div class="card h-100">
-                        <!-- Replace '#' with the actual link -->
-                        <a href="your-link-here">
-                            <?php if (isset($base64Image)): ?>
-                                <img class="card-img-top"
-                                    src="data:image/jpeg;base64,<?php echo htmlspecialchars($base64Image, ENT_QUOTES, 'UTF-8'); ?>"
-                                    alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
-                            <?php endif; ?>
-                        </a>
+                        <img class="card-img-top" src="<?php echo $row['eventImage']; ?>"
+                            alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
                         <div class="card-body">
                             <h4 class="card-title">
-                                <!-- Replace '#' with the actual link -->
-                                <a href="your-link-here">
-                                    <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>
-                                </a>
+                                <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>
                             </h4>
-                            <p class="card-text">
+                            <p class="card-text" style="text-align: justify;">
                                 <?php echo htmlspecialchars($row["description"], ENT_QUOTES, 'UTF-8'); ?>
                             </p>
                         </div>
+                        <?php
+                        if (isset($_SESSION['attendeeID'])) { ?>
+                            <form action="functions/registerInEvent.php" method="POST">
+                                <input type="hidden" name="attendeeID" value="<?php echo $_SESSION['attendeeID'][0]; ?>">
+                                <input type="hidden" name="eventID" value="<?php echo $row['eventID']; ?>">
+                            <?php } else { ?>
+                                <form action="guestLoginPage.php">
+                                <?php }
+                        ?>
+                                <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit"
+                                    value="register" id="btn">register me</button>
+                            </form>
                     </div>
                 </div>
-
                 <?php
-                if ($result->num_rows % 2 == 0) {
-                    echo '</div><div class="row">';
+                $counter++; // Increment the counter
+        
+                if ($counter % 2 == 0 && $result->num_rows > $counter) {
+                    echo '</div><div class="row">'; // Close the current row and open a new one if more cards are left to display
                 }
             }
 
-            // End of the row div
-            echo '</div>';
-
+            if ($counter % 2 != 0) {
+                echo '</div>'; // Close the last row if an odd number of cards
+            }
         } else {
             echo "0 results";
         }
         ?>
-
-        <!-- /.row -->
-
-        <!-- Pagination -->
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
 
     </div>
     <!-- /.container -->
 
     <?php
     include_once 'include/footer.php';
+    $conn->close();
     ?>
 
 </body>
-
-<?php
-$conn->close();
-?>
-
 
 </html>

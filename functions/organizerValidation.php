@@ -7,35 +7,63 @@ $messages = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    include('../include/connection.php');
+    include ('../include/connection.php');
 
     $userType = $_POST['userType'];
-    $image = $_POST['imageBase64'];
     $organizerName = $_POST['organizerName'];
     $college = $_POST['college'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
-    // to prevent from mysqli injection
-    $organizerName = stripcslashes($organizerName);
-    $email = stripcslashes($email);
-    $password = stripcslashes($password);
-    $confirmPassword = stripcslashes($confirmPassword);
+    // Check if image is uploaded and there is no error
+    $imageProvided = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
 
-    $organizerName = mysqli_real_escape_string($conn, $organizerName);
-    $email = mysqli_real_escape_string($conn, $email);
-    $password = mysqli_real_escape_string($conn, $password);
-    $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
+    // Initialize variables related to file upload
+    $target_dir = './assets/uploadedImages/';
+    $file_name = '';
+    $target_file = '';
 
-    // Query the database to find if the email is already registered
-    $query = "SELECT email FROM organizer WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
+    if ($imageProvided) {
+        $temp = $_FILES['image']['tmp_name'];
+        $uniq = time() . rand(1000, 9999);
+        $info = pathinfo($_FILES['image']['name']);
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        $fileType = strtolower($info['extension']);
+
+        // to prevent from mysqli injection
+        $organizerName = stripcslashes($organizerName);
+        $email = stripcslashes($email);
+        $password = stripcslashes($password);
+        $confirmPassword = stripcslashes($confirmPassword);
+
+        $organizerName = mysqli_real_escape_string($conn, $organizerName);
+        $email = mysqli_real_escape_string($conn, $email);
+        $password = mysqli_real_escape_string($conn, $password);
+        $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
+
+        // Query the database to find if the email is already registered
+        $query = "SELECT email FROM organizer WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
 
 
-    $organizerNamePattern = "/^[A-Za-z ]+$/";
-    $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
-    $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
+        $organizerNamePattern = "/^[A-Za-z ]+$/";
+        $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+        $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
+
+
+        if ($fileType !== "jpg" && $fileType !== "png" && $fileType !== "jpeg") {
+            $messages[] = 'Sorry, only JPG, PNG, and JPEG formats are allowed.';
+            $validationPassed = false;
+        } else {
+            $file_name = "file_" . $uniq . "." . $info['extension'];
+            $target_file = $target_dir . $file_name;
+            move_uploaded_file($temp, $target_file);
+        }
+    } else {
+        $messages[] = 'Image file is not provided or there was an error uploading.';
+        $validationPassed = false;
+    }
 
     if (empty($organizerName)) {
         $messages[] = "Organizer name not provided. Please enter the organizer name.";
@@ -98,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         session_start();
         $_SESSION['userType'] = $userType;
-        $_SESSION['imageBase64'] = $image;
+        $_SESSION['image'] = $target_file;
         $_SESSION['organizerName'] = $organizerName;
         $_SESSION['college'] = $college;
         $_SESSION['email'] = $email;
@@ -106,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect to OTP verification page on successful validation
         echo "<script type='text/javascript'>";
-        echo "window.location.href = 'sendOTP.php';";
+        echo "window.location.href = './sendOTP.php';";
         echo "</script>";
     }
 } else {

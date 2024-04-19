@@ -1,3 +1,5 @@
+
+
 /* this related to log in page */
 
 .login {
@@ -72,12 +74,6 @@
 .show-password {
   margin-top: 20px;
 }
-
-
-
-
-
-
 
 .container2 {
   position: absolute;
@@ -325,20 +321,11 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.cd__main{
-   display: block !important;
+.cd__main {
+  display: block !important;
 }
-
-
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$image = $_SESSION['imageBase64'];
+$image = $_SESSION['image'];
 $firstName = $_SESSION['firstName'];
 $lastName = $_SESSION['lastName'];
 $gender = $_SESSION['gender'];

@@ -6,10 +6,9 @@ $messages = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    include('../include/connection.php');
+    include ('../include/connection.php');
 
     $userType = $_POST['userType'];
-    $image = $_POST['imageBase64'];
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $gender = $_POST['gender'];
@@ -19,26 +18,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
-    // to prevent from mysqli injection
-    $firstName = stripcslashes($firstName);
-    $lastName = stripcslashes($lastName);
-    $email = stripcslashes($email);
-    $password = stripcslashes($password);
-    $confirmPassword = stripcslashes($confirmPassword);
+    // Check if image is uploaded and there is no error
+    $imageProvided = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
 
-    $firstName = mysqli_real_escape_string($conn, $firstName);
-    $lastName = mysqli_real_escape_string($conn, $lastName);
-    $email = mysqli_real_escape_string($conn, $email);
-    $password = mysqli_real_escape_string($conn, $password);
-    $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
+    // Initialize variables related to file upload
+    $target_dir = './assets/uploadedImages/';
+    $file_name = '';
+    $target_file = '';
 
-    // Query the database to find if the email is already registered
-    $query = "SELECT email FROM attendee WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
+    if ($imageProvided) {
+        $temp = $_FILES['image']['tmp_name'];
+        $uniq = time() . rand(1000, 9999);
+        $info = pathinfo($_FILES['image']['name']);
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        $fileType = strtolower($info['extension']);
 
-    $namePattern = "/^[A-Za-z]+$/";
-    $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
-    $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
+        // to prevent from mysqli injection
+        $firstName = stripcslashes($firstName);
+        $lastName = stripcslashes($lastName);
+        $email = stripcslashes($email);
+        $password = stripcslashes($password);
+        $confirmPassword = stripcslashes($confirmPassword);
+
+        $firstName = mysqli_real_escape_string($conn, $firstName);
+        $lastName = mysqli_real_escape_string($conn, $lastName);
+        $email = mysqli_real_escape_string($conn, $email);
+        $password = mysqli_real_escape_string($conn, $password);
+        $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
+
+        // Query the database to find if the email is already registered
+        $query = "SELECT email FROM attendee WHERE email = '$email'";
+        $result = mysqli_query($conn, $query);
+
+        $namePattern = "/^[A-Za-z]+$/";
+        $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+        $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
+
+        //    Allow certain files formats
+        if ($fileType !== "jpg" && $fileType !== "png" && $fileType !== "jpeg") {
+            $messages[] = 'Sorry, only JPG, PNG, and JPEG formats are allowed.';
+            $validationPassed = false;
+        } else {
+            $file_name = "file_" . $uniq . "." . $info['extension'];
+            $target_file = $target_dir . $file_name;
+            move_uploaded_file($temp, $target_file);
+        }
+    } else {
+        $messages[] = 'Image file is not provided or there was an error uploading.';
+        $validationPassed = false;
+    }
 
     if (empty($firstName)) {
         $messages[] = "First name not provided. Please enter your first name.";
@@ -135,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         session_start();
         $_SESSION['userType'] = $userType;
-        $_SESSION['imageBase64'] = $image;
+        $_SESSION['image'] = $target_file;
         $_SESSION['firstName'] = $firstName;
         $_SESSION['lastName'] = $lastName;
         $_SESSION['gender'] = $gender;

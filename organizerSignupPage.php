@@ -25,14 +25,13 @@
                                     <h3 class="login-heading mb-4">Organizer Sign Up</h3>
                                     <!-- Signup Form -->
                                     <form name="signup" action="functions/organizerValidation.php"
-                                        onsubmit="return validation()" method="POST">
+                                        onsubmit="return validation()" method="POST" enctype="multipart/form-data">
 
                                         <!-- Image Upload Section -->
                                         <div class="form-floating mb-3">
-                                            <input type="file" class="form-control" id="image" name="image" accept="image/*"
-                                                onchange="convertToBase64();">
+                                            <input type="file" class="form-control" id="image" name="image"
+                                                accept="image/*">
                                             <label for="image">Upload Image</label>
-                                            <input type="hidden" id="imageBase64" name="imageBase64">
                                         </div>
 
                                         <div class="form-floating mb-3">
@@ -193,17 +192,6 @@
                         break;
                 }
             });
-
-            function convertToBase64() {
-                var file = document.getElementById('image').files[0];
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                    document.getElementById('imageBase64').value = reader.result;
-                }
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-            }
         </script>
         <?php
 
