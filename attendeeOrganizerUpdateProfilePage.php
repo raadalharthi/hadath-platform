@@ -58,7 +58,6 @@
                             }
                         }
                     </style>
-
                     <section class="vh-100" style="height: 100vh;">
                         <div class="container h-100">
                             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -66,8 +65,8 @@
                                     <div class="card" style="width: 100%;">
                                         <div class="row g-0">
                                             <div class="col-md-4 gradient-custom">
-                                                <img src="<?php echo $row["attendeeImage"]; ?>"
-                                                    alt="User Picture" class="img-fluid my-5"
+                                                <img src="<?php echo $row["attendeeImage"]; ?>" alt="User Picture"
+                                                    class="img-fluid my-5"
                                                     style="width: 300px; height: 300px; object-fit: cover;" />
                                                 <h5>
                                                     <?php echo $row["firstName"] . " " . $row["lastName"]; ?>

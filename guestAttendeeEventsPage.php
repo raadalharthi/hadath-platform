@@ -41,7 +41,7 @@
                 <div class="col-6 mb-4">
                     <div class="card h-100">
                         <img class="card-img-top" src="<?php echo $row['eventImage']; ?>"
-                            alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
+                            alt="">
                         <div class="card-body">
                             <h4 class="card-title">
                                 <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>

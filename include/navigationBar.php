@@ -27,11 +27,6 @@
                         <a class="nav-link" href="organizerAddEventPage.php">Add
                             Event</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="attendeeNotificationsPage.php">Notifications</a>
-                    </li>
-
                     <?php
 
                 } else { ?>
