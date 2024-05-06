@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imageProvided = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
 
     // Initialize variables related to file upload
-    $target_dir = './assets/uploadedImages/';
+    $target_dir = '../assets/uploadedImages/';
     $file_name = '';
     $target_file = '';
 
