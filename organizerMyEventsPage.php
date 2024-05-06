@@ -49,7 +49,6 @@
                                 $newEventImage = $row['eventImage']; // If no '.', use the original path
                             }
                             ?>
-
                             <img class="card-img-top" src="<?php echo $newEventImage; ?>"
                                 alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
 

@@ -22,6 +22,7 @@
             <!-- Page Heading -->
             <h1 class="my-4">Registered Events</h1>
 
+
             <?php
             require_once 'include/connection.php';
 
@@ -40,9 +41,21 @@
                 // Output data of each row
                 while ($row = $resultEvents->fetch_assoc()) {
                     ?>
+
+                    <?php
+                    // Assuming $row['eventImage'] contains the path like '../assets/uploadedImages/file_17150193478616.jpg'
+                    $firstDotPos = strpos($row['eventImage'], '.'); // Find position of first '.'
+        
+                    if ($firstDotPos !== false) {
+                        $newEventImage = substr_replace($row['eventImage'], '', $firstDotPos, 1); // Remove the first '.'
+                    } else {
+                        $newEventImage = $row['eventImage']; // If no '.', use the original path
+                    }
+                    ?>
+
                     <div class="col-6 mb-4">
                         <div class="card h-100">
-                            <img class="card-img-top" src="<?php echo $row['eventImage']; ?>"
+                            <img class="card-img-top" src="<?php echo $newEventImage; ?>"
                                 alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
                             <div class="card-body">
                                 <h4 class="card-title">
@@ -85,24 +98,29 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="modalLabel">Rating
-                                                    <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?></h5>
+                                                    <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>
+                                                </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="ratingFunction.php" method="POST" id="ratingForm">
+                                                <form action="functions/ratingFunction.php" method="POST" id="ratingForm">
                                                     <div class="star-rating" style="display: flex; justify-content: center;">
-                                                        <?php for ($i = 1; $i <= 10; $i++): ?>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                                stroke="currentColor" class="star" viewBox="0 0 24 24"
-                                                                data-value="<?php echo $i; ?>">
-                                                                <polygon stroke-width="2"
-                                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                                                                    style="fill:transparent; stroke: linear-gradient(to right, #06beb6, #48b1bf);">
-                                                            </svg>
-                                                        <?php endfor; ?>
+                                                        <label for="ratingValue">Rate the Event:</label>
+                                                        <select id="ratingValue" name="ratingValue">
+                                                            <option value="1">1 out of 10</option>
+                                                            <option value="2">2 out of 10</option>
+                                                            <option value="3">3 out of 10</option>
+                                                            <option value="4">4 out of 10</option>
+                                                            <option value="5">5 out of 10</option>
+                                                            <option value="6">6 out of 10</option>
+                                                            <option value="7">7 out of 10</option>
+                                                            <option value="8">8 out of 10</option>
+                                                            <option value="9">9 out of 10</option>
+                                                            <option value="10">10 out of 10</option>
+                                                        </select>
                                                     </div>
-                                                    <input type="hidden" name="rating" id="ratingValue" />
+                                                    <br>
                                                     <input type="hidden" name="attendeeID"
                                                         value="<?php echo $_SESSION['attendeeID']; ?>" />
                                                     <input type="hidden" name="eventID" value="<?php echo $row['eventID']; ?>" />

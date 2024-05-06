@@ -38,10 +38,21 @@
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
                 ?>
+
+                <?php
+                // Assuming $row['eventImage'] contains the path like '../assets/uploadedImages/file_17150193478616.jpg'
+                $firstDotPos = strpos($row['eventImage'], '.'); // Find position of first '.'
+        
+                if ($firstDotPos !== false) {
+                    $newEventImage = substr_replace($row['eventImage'], '', $firstDotPos, 1); // Remove the first '.'
+                } else {
+                    $newEventImage = $row['eventImage']; // If no '.', use the original path
+                }
+                ?>
+
                 <div class="col-6 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="<?php echo $row['eventImage']; ?>"
-                            alt="">
+                        <img class="card-img-top" src="<?php echo $newEventImage; ?>" alt="">
                         <div class="card-body">
                             <h4 class="card-title">
                                 <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>

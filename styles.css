@@ -1,3 +1,7 @@
+canvas {
+  max-width: 100%;  /* Ensures that the canvas is responsive and does not overflow its container */
+  height: auto;     /* Maintains aspect ratio */
+}
 
 
 /* this related to log in page */
