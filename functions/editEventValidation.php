@@ -20,21 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Patterns for validation
     $titlePattern = "/^[A-Za-z0-9 ]+$/";  // Only alphanumeric and space characters
 
-    // Check for image file
-    $imageProvided = isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK;
-
     // Initialize variables related to file upload
-    $target_dir = './assets/uploadedImages/';
+    $target_dir = '../assets/uploadedImages/';
     $file_name = '';
     $target_file = '';
 
-    if ($imageProvided) {
+    if ($_FILES['image']['error'] == UPLOAD_ERR_NO_FILE) {
+        $target_file = $_POST['oldImage']; // Use the old image if no new image is uploaded
+    } elseif ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        // Proceed with the file upload
         $temp = $_FILES['image']['tmp_name'];
         $uniq = time() . rand(1000, 9999);
         $info = pathinfo($_FILES['image']['name']);
         $fileType = strtolower($info['extension']);
 
-        // Allow certain files formats
         if ($fileType !== "jpg" && $fileType !== "png" && $fileType !== "jpeg") {
             $messages[] = 'Sorry, only JPG, PNG, and JPEG formats are allowed.';
             $validationPassed = false;
@@ -44,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             move_uploaded_file($temp, $target_file);
         }
     } else {
-        $messages[] = 'Image file is not provided or there was an error uploading.';
+        // Handle other errors
+        $messages[] = 'There was an error uploading the image.';
         $validationPassed = false;
     }
 
@@ -103,11 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $alertMessage = implode("\\n", $messages);
         echo "<script type='text/javascript'>";
         echo "alert('$alertMessage');";
-        echo "window.location.href = '../eventFormPage.php';";
+        echo "window.location.href = '../organizerEditEventPage.php';";
         echo "</script>";
     } else {
         session_start();
 
+        $_SESSION['eventID'] = $_POST['eventID'];
         $_SESSION['image'] = $target_file;
         $_SESSION['eventTitle'] = $eventTitle;
         $_SESSION['eventType'] = $eventType;
@@ -120,12 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect to OTP verification page on successful validation
         echo "<script type='text/javascript'>";
-        echo "window.location.href = 'addEventToDB.php';";
+        echo "window.location.href = 'editEventInDB.php';";
         echo "</script>";
     }
 } else {
     // If the form is not submitted, redirect back to the event form page
-    header('Location: ../organizerAddEventPage.php');
+    header('Location: ../organizerEditEventPage.php');
     exit;
 }
 

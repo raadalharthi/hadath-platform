@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image" style="background-image: url(./assets/test.webp);">
+                <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image" style="background-image: url(./assets/addEvent.webp);">
                 </div>
             </div>
         </div>

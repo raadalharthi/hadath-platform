@@ -139,7 +139,7 @@
         </script>
 
         <canvas id="genderChart" width="100" height="100"></canvas>
-        <canvas id="ageChart" width="100" height="100"></canvas>
+        <canvas id="ageChart" width="100" height="400"></canvas>
 
         <?php
 

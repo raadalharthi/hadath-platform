@@ -39,8 +39,20 @@
                     ?>
                     <div class="col-6 mb-4">
                         <div class="card h-100">
-                            <img class="card-img-top" src="<?php echo $row['eventImage']; ?>"
+                            <?php
+                            // Assuming $row['eventImage'] contains the path like '../assets/uploadedImages/file_17150193478616.jpg'
+                            $firstDotPos = strpos($row['eventImage'], '.'); // Find position of first '.'
+                
+                            if ($firstDotPos !== false) {
+                                $newEventImage = substr_replace($row['eventImage'], '', $firstDotPos, 1); // Remove the first '.'
+                            } else {
+                                $newEventImage = $row['eventImage']; // If no '.', use the original path
+                            }
+                            ?>
+
+                            <img class="card-img-top" src="<?php echo $newEventImage; ?>"
                                 alt="<?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?>">
+
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>
@@ -63,7 +75,7 @@
                             $attendanceRosterEndDateTime->modify('+1 day');
 
                             // Check if the event date and time has passed compared to the current time
-                            if ($eventDateTime < $now) {
+                            if ($eventDateTime > $now) {
                                 // Event has passed; show the form with download and rating buttons
                                 ?>
 
@@ -71,6 +83,21 @@
                                     style="display: flex; justify-content: center; gap: 10px; padding: 0 20px;">
 
                                     <input type="hidden" value="<?php echo $row['eventID']; ?>" name="eventID" id="eventID" />
+                                    <input type="hidden" value="<?php echo $row['title']; ?>" name="title" id="title" />
+                                    <input type="hidden" value="<?php echo $row['eventType']; ?>" name="eventType" id="eventType" />
+                                    <input type="hidden" value="<?php echo $row['date']; ?>" name="date" id="date" />
+                                    <input type="hidden" value="<?php echo $row['time']; ?>" name="time" id="time" />
+                                    <input type="hidden" value="<?php echo $row['location']; ?>" name="location" id="location" />
+                                    <input type="hidden" value="<?php echo $row['description']; ?>" name="description"
+                                        id="description" />
+                                    <input type="hidden" value="<?php echo $row['organizerID']; ?>" name="organizerID"
+                                        id="organizerID" />
+                                    <input type="hidden" value="<?php echo $row['capacity']; ?>" name="capacity" id="capacity" />
+                                    <input type="hidden" value="<?php echo $row['numberOfRegistered']; ?>" name="numberOfRegistered"
+                                        id="numberOfRegistered" />
+                                    <input type="hidden" value="<?php echo $row['registrationDeadline']; ?>" name="registrationDeadline"
+                                        id="registrationDeadline" />
+                                    <input type="hidden" value="<?php echo $row['eventImage']; ?>" name="eventImage" id="eventImage" />
 
                                     <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit"
                                         value="editEvent" name="action"
@@ -123,8 +150,10 @@
 
                                     <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="button"
                                         data-bs-toggle="modal" data-bs-target="#attendanceRoster"
-                                        style="flex: 1; background: linear-gradient(to right, #06beb6, #48b1bf); border: none; color: white;" <?php if ($now < $attendanceRosterEndDateTime) {
-                                            echo "disabled"; } ?>>Attendance
+                                        style="flex: 1; background: linear-gradient(to right, #06beb6, #48b1bf); border: none; color: white;"
+                                        <?php if ($now < $attendanceRosterEndDateTime) {
+                                            echo "disabled";
+                                        } ?>>Attendance
                                         Roster</button>
                                 </form>
 
