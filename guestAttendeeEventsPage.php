@@ -3,7 +3,6 @@
 
 <head>
     <?php
-
     $title = "Events Page";
     include_once 'include/metaData.php';
 
@@ -22,19 +21,100 @@
     <div class="container">
 
         <!-- Page Heading -->
-        <h1 class="my-4">Events</h1>
-
         <?php
         require_once 'include/connection.php';
 
-        $sql = "SELECT events.*, organizer.organizerName 
-                FROM events 
-                INNER JOIN organizer ON events.organizerID = organizer.organizerID";
-        $result = $conn->query($sql);
+        // Mapping acronyms and full names
+        $collegeAcronyms = [
+            'College of Computer Science and Information Technology' => 'CCSIT',
+            'College of Business Administration' => 'CBA',
+            'College of Engineering' => 'COE',
+            'College of Architecture' => 'ARCH',
+            'College of Medicine' => 'MED'
+        ];
 
+        $collegeNames = [
+            'CCSIT' => 'College of Computer Science and Information Technology',
+            'CBA' => 'College of Business Administration',
+            'COE' => 'College of Engineering',
+            'ARCH' => 'College of Architecture',
+            'MED' => 'College of Medicine'
+        ];
+
+        $eventTypeNames = [
+            'ACD' => 'Academic Events',
+            'ART' => 'Art Shows',
+            'AWC' => 'Award Ceremonies',
+            'CHE' => 'Charity Events',
+            'COM' => 'Community Events',
+            'CFS' => 'Conferences',
+            'ENT' => 'Entertainment Events',
+            'EXB' => 'Exhibitions',
+            'HOL' => 'Holiday Celebrations',
+            'NET' => 'Networking Events',
+            'SEM' => 'Seminars',
+            'SHO' => 'Showcase',
+            'WRK' => 'Workshops'
+        ];
+
+        // Retrieve the selected college from the filter
+        $collegeFilter = isset($_GET['college']) ? $_GET['college'] : '';
+
+        // Translate the full college name back to the acronym
+        $collegeAcronymFilter = array_search($collegeFilter, $collegeAcronyms);
+
+        // Get the college filter options
+        $sqlColleges = "SELECT DISTINCT organizer.college
+                        FROM organizer
+                        INNER JOIN events ON organizer.organizerID = events.organizerID
+                        WHERE events.date >= NOW()";
+        $resultColleges = $conn->query($sqlColleges);
+        $colleges = [];
+
+        if ($resultColleges) {
+            while ($rowCollege = $resultColleges->fetch_assoc()) {
+                $colleges[] = $rowCollege['college'];
+            }
+        }
+
+        // SQL Query for events
+        $sql = "SELECT events.*, organizer.organizerName, organizer.college 
+                FROM events 
+                INNER JOIN organizer ON events.organizerID = organizer.organizerID 
+                WHERE events.date >= NOW()";
+
+        if ($collegeAcronymFilter !== false) {
+            $sql .= " AND organizer.college = '" . $conn->real_escape_string($collegeAcronymFilter) . "'";
+        }
+
+        $result = $conn->query($sql);
+        $eventsCount = $result ? $result->num_rows : 0;
+        ?>
+
+        <div class="row mt-4">
+            <div class="col-md-9">
+                <h1 class="my-4">Events <small>(Showing <?php echo $eventsCount; ?>)</small></h1>
+            </div>
+            <div class="col-md-3 text-right">
+                <form method="GET" action="">
+                    <label for="collegeFilter">College Filter:</label>
+                    <select id="collegeFilter" name="college" class="form-control" onchange="this.form.submit()">
+                        <option value="">Select College</option>
+                        <?php
+                        foreach ($colleges as $collegeAcronym) {
+                            $fullName = $collegeNames[$collegeAcronym];
+                            $selected = ($fullName === $collegeFilter) ? 'selected' : '';
+                            echo "<option value='{$fullName}' {$selected}>{$fullName}</option>";
+                        }
+                        ?>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <?php
         // Check if the query was successful
         if (!$result) {
-            // Debugging message for query failure
             echo "<p>Query Error: " . $conn->error . "</p>";
         } else if ($result->num_rows > 0) {
             echo '<div class="row">'; // Start the first row
@@ -66,11 +146,12 @@
                                 <?php echo htmlspecialchars($row["description"], ENT_QUOTES, 'UTF-8'); ?>
                             </p>
                             <ul class="list-unstyled">
-                                <li><strong>Type:</strong> <?php echo htmlspecialchars($row['eventType'], ENT_QUOTES, 'UTF-8'); ?></li>
+                                <li><strong>Type:</strong> <?php echo htmlspecialchars($eventTypeNames[$row['eventType']], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Date:</strong> <?php echo htmlspecialchars($row['date'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Time:</strong> <?php echo htmlspecialchars($row['time'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Location:</strong> <?php echo htmlspecialchars($row['location'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Organizer:</strong> <?php echo htmlspecialchars($row['organizerName'], ENT_QUOTES, 'UTF-8'); ?></li>
+                                <li><strong>College:</strong> <?php echo htmlspecialchars($collegeNames[$row['college']], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Registration Deadline:</strong> <?php echo htmlspecialchars($row['registrationDeadline'], ENT_QUOTES, 'UTF-8'); ?></li>
                             </ul>
                         </div>
