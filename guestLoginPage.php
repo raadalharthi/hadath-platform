@@ -37,8 +37,8 @@
                           *</span></label>
                     </div>
                     <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                      <label for="password">Password<span style="color: red;">
+                      <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+                      <label for="pass">Password<span style="color: red;">
                           *</span></label>
                     </div>
 
@@ -77,10 +77,10 @@
     <script>
       function validation() {
         var email = document.login.email.value;
-        var password = document.login.password.value;
+        var pass = document.login.pass.value;
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression for email validation
 
-        if (email.length == "" && password.length == "") {
+        if (email.length == "" && pass.length == "") {
           alert("Email and password not provided. Please enter your email address and password.");
           return false;
         } else {
@@ -91,7 +91,7 @@
             alert("Please enter a valid email address.");
             return false;
           }
-          if (password.length == "") {
+          if (pass.length == "") {
             alert("Password not provided. Please enter your password.");
             return false;
           }

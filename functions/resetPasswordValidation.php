@@ -88,24 +88,24 @@ if ($userType == "Confirm New Password") {
 
         include('../include/connection.php');
 
-        $password = $_POST['password'];
+        $pass = $_POST['pass'];
         $confirmPassword = $_POST['confirmPassword'];
 
         // to prevent from mysqli injection
-        $password = stripcslashes($password);
+        $pass = stripcslashes($pass);
         $confirmPassword = stripcslashes($confirmPassword);
 
-        $password = mysqli_real_escape_string($conn, $password);
+        $pass = mysqli_real_escape_string($conn, $pass);
         $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
 
         $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
 
-        if (empty($password)) {
+        if (empty($pass)) {
             $messages[] = "Password not provided. Please enter your password.";
             $validationPassed = false;
         }
 
-        if (!preg_match($passwordPattern, $password)) {
+        if (!preg_match($passwordPattern, $pass)) {
             $messages[] = "Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.";
             $validationPassed = false;
         }
@@ -115,7 +115,7 @@ if ($userType == "Confirm New Password") {
             $validationPassed = false;
         }
 
-        if ($password !== $confirmPassword) {
+        if ($pass !== $confirmPassword) {
             $messages[] = "Passwords do not match.";
             $validationPassed = false;
         }
@@ -131,7 +131,7 @@ if ($userType == "Confirm New Password") {
 
             session_start();
             $_SESSION['userType'] = $userType;
-            $_SESSION['password'] = $password;
+            $_SESSION['pass'] = $pass;
 
             echo "<script type='text/javascript'>";
             echo "window.location.href = 'resetPassword.php';";

@@ -8,7 +8,7 @@ $gender = $_SESSION['gender'];
 $birthDate = $_SESSION['birthDate'];
 $college = $_SESSION['college'];
 $email = $_SESSION['email'];
-$password = $_SESSION['password'];
+$pass = $_SESSION['pass'];
 
 if (isset($_POST['enterdOTP'])) {
     $userOtp = $_POST['enterdOTP'];
@@ -19,7 +19,7 @@ if (isset($_POST['enterdOTP'])) {
         require_once '../include/connection.php';
 
         // Insert the user data into the database, using the hashed password
-        $sql = "INSERT INTO attendee (firstName, lastName, email, password, gender, college, attendeeImage, birthDate) VALUES ('$firstName', '$lastName', '$email', '$password', '$gender', '$college', '$image', '$birthDate');";
+        $sql = "INSERT INTO attendee (firstName, lastName, email, password, gender, college, attendeeImage, birthDate) VALUES ('$firstName', '$lastName', '$email', '$pass', '$gender', '$college', '$image', '$birthDate');";
         $result = mysqli_query($conn, $sql);
 
         session_destroy();
@@ -32,7 +32,7 @@ if (isset($_POST['enterdOTP'])) {
 
         $sql = "SELECT attendeeID  FROM attendee WHERE email = ? AND password = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+        mysqli_stmt_bind_param($stmt, "ss", $email, $pass);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 

@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $birthDate = $_POST['birthDate'];
     $college = $_POST['college'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $pass = $_POST['pass'];
     $confirmPassword = $_POST['confirmPassword'];
 
     // Check if image is uploaded and there is no error
@@ -37,13 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $firstName = stripcslashes($firstName);
         $lastName = stripcslashes($lastName);
         $email = stripcslashes($email);
-        $password = stripcslashes($password);
+        $pass = stripcslashes($pass);
         $confirmPassword = stripcslashes($confirmPassword);
 
         $firstName = mysqli_real_escape_string($conn, $firstName);
         $lastName = mysqli_real_escape_string($conn, $lastName);
         $email = mysqli_real_escape_string($conn, $email);
-        $password = mysqli_real_escape_string($conn, $password);
+        $pass = mysqli_real_escape_string($conn, $pass);
         $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
 
         // Query the database to find if the email is already registered
@@ -132,12 +132,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if (empty($password)) {
+    if (empty($pass)) {
         $messages[] = "Password not provided. Please enter your password.";
         $validationPassed = false;
     }
 
-    if (!preg_match($passwordPattern, $password)) {
+    if (!preg_match($passwordPattern, $pass)) {
         $messages[] = "Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.";
         $validationPassed = false;
     }
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if ($password !== $confirmPassword) {
+    if ($pass !== $confirmPassword) {
         $messages[] = "Passwords do not match.";
         $validationPassed = false;
     }
@@ -170,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['birthDate'] = $birthDate;
         $_SESSION['college'] = $college;
         $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
+        $_SESSION['pass'] = $pass;
 
         // Redirect to OTP verification page on successful validation
         echo "<script type='text/javascript'>";

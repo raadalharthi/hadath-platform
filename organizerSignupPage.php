@@ -58,9 +58,9 @@
                                             <label for="email">Email address<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="password" class="form-control" id="password" name="password"
+                                            <input type="password" class="form-control" id="pass" name="pass"
                                                 placeholder="Password">
-                                            <label for="password">Password<span style="color: red;"> *</span></label>
+                                            <label for="pass">Password<span style="color: red;"> *</span></label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="confirmPassword"
@@ -103,7 +103,7 @@
                 var organizerName = document.signup.organizerName.value;
                 var college = document.signup.college.value;
                 var email = document.signup.email.value;
-                var password = document.signup.password.value;
+                var pass = document.signup.pass.value;
                 var confirmPassword = document.signup.confirmPassword.value;
                 var organizerNamePattern = /^[A-Za-z ]+$/;
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -134,12 +134,12 @@
                     return false;
                 }
 
-                if (password.trim() === "") {
+                if (pass.trim() === "") {
                     alert("Password not provided. Please enter your password.");
                     return false;
                 }
 
-                if (!passwordPattern.test(password)) {
+                if (!passwordPattern.test(pass)) {
                     alert("Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.");
                     return false;
                 }
@@ -157,7 +157,7 @@
                 return true;
             }
 
-            document.getElementById("password").addEventListener("input", function () {
+            document.getElementById("pass").addEventListener("input", function () {
                 var passwordValue = this.value;
                 var strengthBar = document.getElementById("passwordStrengthBar");
                 var strengthText = document.getElementById("passwordStrengthText");
