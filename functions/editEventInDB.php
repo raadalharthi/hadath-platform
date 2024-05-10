@@ -15,7 +15,7 @@ $registrationDeadline = $_SESSION['registrationDeadline'];
 $eventLocation = $_SESSION['eventLocation'];
 $eventDescription = $_SESSION['eventDescription'];
 $eventCapacity = $_SESSION['eventCapacity'];
-$organizerID = $_SESSION['organizerID']; // Retrieve organizer ID from session
+$organizerID = $_SESSION['organizerID'][0]; // Retrieve organizer ID from session
 
 // Update the event data in the database
 $sql = "UPDATE events SET title = ?, eventType = ?, date = ?, time = ?, location = ?, description = ?, organizerID = ?, capacity = ?, registrationDeadline = ?, eventImage = ? 

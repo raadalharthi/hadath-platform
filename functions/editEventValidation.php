@@ -73,11 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if ($deadlineDateObj >= $eventDateObj) {
-        $messages[] = "The registration deadline must be before the event date.";
-        $validationPassed = false;
-    }
-
     // Validate location and description
     if (empty($eventLocation)) {
         $messages[] = "Event location is required. Please enter the event location.";

@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if ($deadlineDateObj >= $eventDateObj) {
+    if ($deadlineDateObj <= $eventDateObj) {
         $messages[] = "The registration deadline must be before the event date.";
         $validationPassed = false;
     }
@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $alertMessage = implode("\\n", $messages);
         echo "<script type='text/javascript'>";
         echo "alert('$alertMessage');";
-        echo "window.location.href = '../eventFormPage.php';";
+        echo "window.location.href = '../organizerAddEventPage.php';";
         echo "</script>";
     } else {
         session_start();

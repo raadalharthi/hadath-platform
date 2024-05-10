@@ -4,6 +4,7 @@ $title = "My Profile";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <?php
     include_once 'include/metaData.php';
@@ -72,9 +73,12 @@ $title = "My Profile";
         }
 
         $conn->close();
+
+        $image = substr($image, -47);
     }
     ?>
 </head>
+
 <body>
     <style>
         .gradient-custom {
@@ -108,6 +112,9 @@ $title = "My Profile";
                     <div class="card" style="width: 100%;">
                         <div class="row g-0">
                             <div class="col-md-4 gradient-custom">
+
+
+
                                 <img src="<?php echo $image; ?>" alt="User Picture" class="img-fluid my-5"
                                     style="width: 300px; height: 300px; object-fit: cover;" />
                                 <h5>
@@ -161,4 +168,5 @@ $title = "My Profile";
     </section>
     <?php include_once 'include/footer.php'; ?>
 </body>
+
 </html>

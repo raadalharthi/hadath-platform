@@ -13,7 +13,7 @@ $registrationDeadline = $_SESSION['registrationDeadline'];
 $eventLocation = $_SESSION['eventLocation'];
 $eventDescription = $_SESSION['eventDescription'];
 $eventCapacity = $_SESSION['eventCapacity'];
-$organizerID = $_SESSION['organizerID']; // Retrieve organizer ID from session
+$organizerID = $_SESSION['organizerID'][0]; // Retrieve organizer ID from session
 
 // Check if session variables are set
 if (empty($eventTitle) || empty($eventType)) {
@@ -48,7 +48,7 @@ if ($stmt1) {
     if (!$executeResult) {
         die("Error adding notification: " . mysqli_error($conn));
     } else {
-        echo "Notification added successfully.";
+        header('Location: ../organizerMyEventsPage.php');
     }
 } else {
     die("Error preparing notification statement: " . mysqli_error($conn));

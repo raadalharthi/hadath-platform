@@ -6,6 +6,7 @@ $title = "Edit Profile";
 
 <head>
     <?php
+    session_start();
     include_once 'include/metaData.php';
 
     // Ensure that the user is either an attendee or organizer
@@ -18,7 +19,7 @@ $title = "Edit Profile";
         require 'include/connection.php';
 
         // Initialize variables
-        $id = $_GET['id'] ?? '';
+        $organizerID = $_SESSION['organizerID'][0];
         $type = $_GET['type'] ?? '';
         $first_name = $last_name = $email = $gender = $college = $birthDate = $profile_image = '';
         $college_options = ['CCSIT', 'CBA', 'COE', 'ARCH', 'MED'];
@@ -28,7 +29,7 @@ $title = "Edit Profile";
         if ($type === 'attendee') {
             $sql = "SELECT firstName, lastName, email, gender, college, attendeeImage, birthDate FROM attendee WHERE attendeeID = '$id'";
         } elseif ($type === 'organizer') {
-            $sql = "SELECT firstName, lastName, email, gender, college, organizerImage, birthDate FROM organizer WHERE organizerID = '$id'";
+            $sql = "SELECT firstName, lastName, email, gender, college, organizerImage, birthDate FROM organizer WHERE organizerID = '$organizerID'";
         }
 
         $result = mysqli_query($conn, $sql);
