@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2024 at 05:50 PM
+-- Generation Time: May 10, 2024 at 07:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -38,17 +38,6 @@ CREATE TABLE `attendee` (
   `attendeeImage` varchar(255) DEFAULT NULL,
   `birthDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `attendee`
---
-
-INSERT INTO `attendee` (`attendeeID`, `firstName`, `lastName`, `email`, `password`, `gender`, `college`, `attendeeImage`, `birthDate`) VALUES
-(1, 'Rayyan', 'Alyami', 'rayyan@hadathplatform.com', 'Asd@12345', 'M', 'CCSIT', './assets/uploadedImages/file_17134465891657.png', '2001-06-08'),
-(2, 'Faisal', 'Almadi', 'faisal@hadathplatform.com', 'Asd@12345', 'M', 'CBA', './assets/uploadedImages/file_17134465891657.png', '2000-10-02'),
-(3, 'Raad', 'Alharthi', 'raadalnofaly@gmail.com', 'Asd@12345', 'M', 'CCSIT', './assets/uploadedImages/file_17134465891657.png', '1999-06-19'),
-(4, 'Raad', 'Alharthi', 'raadalnofaly@gmail.co', 'Asd@12345', 'F', 'CCSIT', './assets/uploadedImages/file_17134465891657.png', '1992-06-03'),
-(5, 'Raad', 'Alharthi', 'raadalnofaly@gmail.c', 'Asd@12345', 'F', 'CCSIT', './assets/uploadedImages/file_17134465891657.png', '1992-06-03');
 
 -- --------------------------------------------------------
 
@@ -96,15 +85,6 @@ CREATE TABLE `events` (
   `eventImage` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`eventID`, `title`, `eventType`, `date`, `time`, `location`, `description`, `organizerID`, `capacity`, `numberOfRegistered`, `registrationDeadline`, `eventImage`) VALUES
-(1, 'Introduction of Operating Systems', 'ACD', '2024-05-06', '13:00:00', 'A11 Building, Room #2154', 'Delve into the fundamental concepts of operating systems with our comprehensive introductory course. This course is designed to provide you with a foundational understanding of how operating systems function as the backbone of every computer system. Starting with the basics, you will learn about the roles and responsibilities of an operating system, including process management, memory management, file systems, and input/output management. We will also cover the evolution of operating systems from simple batch systems to modern multi-user environments.\r\n\r\nBy integrating theoretical knowledge with practical skills, this course will guide you through the architecture of widely-used operating systems such as Windows, macOS, and Linux. You\'ll gain insights into system design and operation, including how operating systems are adapting to current trends such as virtualization and cloud computing.', 2, 30, 3, '2024-04-01 12:00:00', ''),
-(2, 'What is Cyber Security', 'ACD', '2024-05-05', '15:00:00', 'A11 Building, Room #1199', 'Cybersecurity is at the forefront of essential knowledge for professionals across all industries. In this course, we will unravel the complexities of cybersecurity. You\'ll learn what cybersecurity is, why it\'s critically important, and how it affects individuals and businesses alike. We will explore various types of cyber threats, from the basics of viruses and malware to sophisticated phishing and ransomware attacks. Additionally, this course will cover protective measures to secure data and personal information, touching on encryption, firewalls, and secure software development practices. With engaging multimedia content, like our visually descriptive video guides, you\'ll gain not just theoretical knowledge but also practical understanding. Prepare to dive into the world of cybersecurity and emerge well-equipped to protect yourself and your organization against digital threats.', 1, 20, 4, '2024-05-15 14:00:00', ''),
-(5, 'Management System', 'ACD', '2024-05-17', '13:11:00', 'A11, aa', 'ddd', 1, 20, NULL, '0000-00-00 00:00:00', '../assets/uploadedImages/file_17148499187052.png');
-
 -- --------------------------------------------------------
 
 --
@@ -146,14 +126,6 @@ CREATE TABLE `organizer` (
   `organizerImage` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `organizer`
---
-
-INSERT INTO `organizer` (`organizerID`, `organizerName`, `email`, `password`, `college`, `organizerImage`) VALUES
-(1, 'Cyber Security Club', 'csc@hadathplatform.com', 'Asd@12345', 'CCSIT', './assets/uploadedImages/2.jpg'),
-(2, 'College of Computer Science and Information Technology Club', 'ccsitc@hadathplatform.com', 'Asd@12345', 'CCSIT', './assets/uploadedImages/1.jpg');
-
 -- --------------------------------------------------------
 
 --
@@ -179,17 +151,6 @@ CREATE TABLE `registrations` (
   `attendeeID` int(10) NOT NULL,
   `eventID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `registrations`
---
-
-INSERT INTO `registrations` (`registrationID`, `attendeeID`, `eventID`) VALUES
-(1, 3, 1),
-(2, 3, 2),
-(3, 3, 5),
-(4, 4, 5),
-(5, 5, 5);
 
 --
 -- Indexes for dumped tables
@@ -292,7 +253,7 @@ ALTER TABLE `eventstatistics`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `organizer`
