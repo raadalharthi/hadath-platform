@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2024 at 08:24 PM
+-- Generation Time: May 09, 2024 at 05:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -57,8 +57,8 @@ INSERT INTO `attendee` (`attendeeID`, `firstName`, `lastName`, `email`, `passwor
 --
 
 CREATE TABLE `attendeenotifications` (
-  `attendeeID` int(10) NOT NULL,
-  `notificationID` int(10) NOT NULL
+  `notificationID` int(10) NOT NULL,
+  `attendeeID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -121,12 +121,11 @@ CREATE TABLE `eventstatistics` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifications`
+-- Table structure for table `notification`
 --
 
-CREATE TABLE `notifications` (
+CREATE TABLE `notification` (
   `notificationID` int(10) NOT NULL,
-  `attendeeID` int(10) NOT NULL,
   `notificationType` varchar(255) NOT NULL,
   `message` varchar(4000) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -206,8 +205,8 @@ ALTER TABLE `attendee`
 -- Indexes for table `attendeenotifications`
 --
 ALTER TABLE `attendeenotifications`
-  ADD PRIMARY KEY (`attendeeID`,`notificationID`),
-  ADD KEY `notificationID` (`notificationID`);
+  ADD KEY `notificationID` (`notificationID`,`attendeeID`),
+  ADD KEY `attendeeID` (`attendeeID`);
 
 --
 -- Indexes for table `certificates`
@@ -234,11 +233,10 @@ ALTER TABLE `eventstatistics`
   ADD KEY `ratingID` (`ratingID`);
 
 --
--- Indexes for table `notifications`
+-- Indexes for table `notification`
 --
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`notificationID`),
-  ADD KEY `attendeeID` (`attendeeID`);
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`notificationID`);
 
 --
 -- Indexes for table `organizer`
@@ -291,9 +289,9 @@ ALTER TABLE `eventstatistics`
   MODIFY `statisticID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `notifications`
+-- AUTO_INCREMENT for table `notification`
 --
-ALTER TABLE `notifications`
+ALTER TABLE `notification`
   MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT;
 
 --
@@ -322,8 +320,8 @@ ALTER TABLE `registrations`
 -- Constraints for table `attendeenotifications`
 --
 ALTER TABLE `attendeenotifications`
-  ADD CONSTRAINT `attendeenotifications_ibfk_1` FOREIGN KEY (`attendeeID`) REFERENCES `attendee` (`attendeeID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `attendeenotifications_ibfk_2` FOREIGN KEY (`notificationID`) REFERENCES `notifications` (`notificationID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `attendeenotifications_ibfk_1` FOREIGN KEY (`notificationID`) REFERENCES `notification` (`notificationID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `attendeenotifications_ibfk_2` FOREIGN KEY (`attendeeID`) REFERENCES `attendee` (`attendeeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `certificates`
@@ -345,12 +343,6 @@ ALTER TABLE `eventstatistics`
   ADD CONSTRAINT `eventstatistics_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `events` (`eventID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `eventstatistics_ibfk_2` FOREIGN KEY (`attendeeID`) REFERENCES `attendee` (`attendeeID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `eventstatistics_ibfk_3` FOREIGN KEY (`ratingID`) REFERENCES `ratings` (`ratingID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`attendeeID`) REFERENCES `attendee` (`attendeeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ratings`
