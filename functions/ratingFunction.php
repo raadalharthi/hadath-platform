@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve data from POST
     $eventID = $_POST['eventID'];
     $ratingValue = $_POST['ratingValue'];
-    $attendeeID = $_SESSION['attendeeID'];
+    $attendeeID = $_SESSION['attendeeID'][0];
 
     // Prepare the SQL statement
     $stmt = $conn->prepare("INSERT INTO ratings (eventID, attendeeID, ratingValue, ratingDate) VALUES (?, ?, ?, NOW())");

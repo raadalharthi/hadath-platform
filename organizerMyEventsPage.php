@@ -28,6 +28,22 @@
             $sql = "SELECT * FROM events WHERE organizerID = {$_SESSION['organizerID'][0]}";
             $result = $conn->query($sql);
 
+            $eventTypeNames = [
+                'ACD' => 'Academic Events',
+                'ART' => 'Art Shows',
+                'AWC' => 'Award Ceremonies',
+                'CHE' => 'Charity Events',
+                'COM' => 'Community Events',
+                'CFS' => 'Conferences',
+                'ENT' => 'Entertainment Events',
+                'EXB' => 'Exhibitions',
+                'HOL' => 'Holiday Celebrations',
+                'NET' => 'Networking Events',
+                'SEM' => 'Seminars',
+                'SHO' => 'Showcase',
+                'WRK' => 'Workshops'
+            ];
+
             if ($result->num_rows > 0) {
                 echo '<div class="row">'; // Start the first row
         
@@ -59,6 +75,19 @@
                                 <p class="card-text" style="text-align: justify;">
                                     <?php echo htmlspecialchars($row["description"], ENT_QUOTES, 'UTF-8'); ?>
                                 </p>
+                                <ul class="list-unstyled">
+                                    <li><strong>Type:</strong>
+                                        <?php echo htmlspecialchars($eventTypeNames[$row['eventType']], ENT_QUOTES, 'UTF-8'); ?>
+                                    </li>
+                                    <li><strong>Date:</strong> <?php echo htmlspecialchars($row['date'], ENT_QUOTES, 'UTF-8'); ?>
+                                    </li>
+                                    <li><strong>Time:</strong> <?php echo htmlspecialchars($row['time'], ENT_QUOTES, 'UTF-8'); ?>
+                                    </li>
+                                    <li><strong>Location:</strong>
+                                        <?php echo htmlspecialchars($row['location'], ENT_QUOTES, 'UTF-8'); ?></li>
+                                    <li><strong>Registration Deadline:</strong>
+                                        <?php echo htmlspecialchars($row['registrationDeadline'], ENT_QUOTES, 'UTF-8'); ?></li>
+                                </ul>
                             </div>
                             <?php
                             // Assuming $row is fetched from your database and contains 'date' and 'time' columns
@@ -69,9 +98,6 @@
                             $eventDateTimeString = $eventDate . ' ' . $eventTime;
                             $eventDateTime = new DateTime($eventDateTimeString);
                             $now = new DateTime();
-
-                            $attendanceRosterEndDateTime = clone $eventDateTime;
-                            $attendanceRosterEndDateTime->modify('+1 day');
 
                             // Check if the event date and time has passed compared to the current time
                             if ($eventDateTime > $now) {
@@ -146,37 +172,8 @@
                                         value="eventStatistics" name="action"
                                         style="flex: 1; background: linear-gradient(to right, #6a11cb, #2575fc); border: none; color: white;">Event
                                         Statistics</button>
-
-                                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="button"
-                                        data-bs-toggle="modal" data-bs-target="#attendanceRoster"
-                                        style="flex: 1; background: linear-gradient(to right, #06beb6, #48b1bf); border: none; color: white;"
-                                        <?php if ($now < $attendanceRosterEndDateTime) {
-                                            echo "disabled";
-                                        } ?>>Attendance
-                                        Roster</button>
                                 </form>
 
-                                <div class="modal fade" id="attendanceRoster" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel">Attendance roster for
-                                                    "<?php echo htmlspecialchars($row["title"], ENT_QUOTES, 'UTF-8'); ?>"</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="functions/attendanceRoster.php" method="POST" id="attendanceRoster">
-                                                    <input type="hidden" name="eventID" value="<?php echo $row['eventID']; ?>" />
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary">Update</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <?php
                             }
                             ?>

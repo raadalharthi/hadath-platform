@@ -7,7 +7,7 @@ if (!isset($_POST['eventID'][0])) {
 }
 
 // Escape the input to prevent SQL Injection
-$id = mysqli_real_escape_string($conn, $_POST['eventID'][0]);
+$id = mysqli_real_escape_string($conn, $_POST['eventID']);
 
 // Prepare the SQL statement to avoid SQL Injection
 $sql = "DELETE FROM events WHERE eventID = ?";
