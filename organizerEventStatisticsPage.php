@@ -34,11 +34,11 @@
 <body>
     <?php include_once 'include/navigationBar.php'; ?>
     <?php
-    if (!isset($_POST['eventID'][0])) {
+    if (!isset($_POST['eventID'])) {
         die('Event ID is missing or incorrect.');
     }
 
-    $eventID = $_POST['eventID'][0];
+    $eventID = $_POST['eventID'];
     include_once 'include/connection.php';
 
     // Count the number of registered attendees
