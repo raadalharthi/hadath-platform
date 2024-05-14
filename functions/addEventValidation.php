@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $eventType = $_POST['eventType'];
     $eventDate = $_POST['eventDate'];
     $eventTime = $_POST['eventTime'];
-    $registrationDeadline = $_POST['registrationDeadline'];
     $eventLocation = trim($_POST['eventLocation']);
     $eventDescription = trim($_POST['eventDescription']);
     $eventCapacity = $_POST['eventCapacity'];
@@ -66,13 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate dates and times
     $current = new DateTime();
     $eventDateObj = new DateTime($eventDate);
-    $deadlineDateObj = new DateTime($registrationDeadline);
 
     if ($eventDateObj < $current) {
         $messages[] = "The event date must be in the future.";
         $validationPassed = false;
     }
-
 
     // Validate location and description
     if (empty($eventLocation)) {
@@ -109,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['eventType'] = $eventType;
         $_SESSION['eventDate'] = $eventDate;
         $_SESSION['eventTime'] = $eventTime;
-        $_SESSION['registrationDeadline'] = $registrationDeadline;
         $_SESSION['eventLocation'] = $eventLocation;
         $_SESSION['eventDescription'] = $eventDescription;
         $_SESSION['eventCapacity'] = $eventCapacity;

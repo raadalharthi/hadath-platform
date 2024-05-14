@@ -26,7 +26,6 @@
         $organizerID = $_POST['organizerID'];
         $capacity = $_POST['capacity'];
         $numberOfRegistered = $_POST['numberOfRegistered'];
-        $registrationDeadline = $_POST['registrationDeadline'];
         $eventImage = $_POST['eventImage'];
 
         ?>
@@ -120,13 +119,6 @@
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="datetime-local" class="form-control" id="registrationDeadline"
-                                                name="registrationDeadline" value="<?php echo $registrationDeadline; ?>">
-                                            <label for="registrationDeadline">Registration Deadline<span
-                                                    style="color: red;"> *</span></label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="eventLocation" name="eventLocation"
                                                 placeholder="Building A11, Main Theater" value="<?php echo $location; ?>">
                                             <label for="eventLocation">Event Location<span style="color: red;">
@@ -170,7 +162,6 @@
                 var eventType = document.editEvent.eventType.value;
                 var eventDate = document.editEvent.eventDate.value;
                 var eventTime = document.editEvent.eventTime.value;
-                var registrationDeadline = document.editEvent.registrationDeadline.value;
                 var eventLocation = document.editEvent.eventLocation.value.trim();
                 var eventDescription = document.editEvent.eventDescription.value.trim();
                 var eventCapacity = document.editEvent.eventCapacity.value;
@@ -204,22 +195,11 @@
                     return false;
                 }
 
-                if (!registrationDeadline) {
-                    alert("Registration deadline is required. Please select the registration deadline.");
-                    return false;
-                }
-
                 var current = new Date();
                 var eventDateObj = new Date(eventDate);
-                var deadlineDateObj = new Date(registrationDeadline);
 
                 if (eventDateObj < current) {
                     alert("The event date must be in the future.");
-                    return false;
-                }
-
-                if (deadlineDateObj >= eventDateObj) {
-                    alert("The registration deadline must be before the event date.");
                     return false;
                 }
 

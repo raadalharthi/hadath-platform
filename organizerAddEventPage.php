@@ -73,13 +73,6 @@
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="datetime-local" class="form-control" id="registrationDeadline"
-                                                name="registrationDeadline">
-                                            <label for="registrationDeadline">Registration Deadline<span
-                                                    style="color: red;"> *</span></label>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="eventLocation" name="eventLocation"
                                                 placeholder="Building A11, Main Theater">
                                             <label for="eventLocation">Event Location<span style="color: red;">
@@ -121,7 +114,6 @@
                 var eventType = document.addEvent.eventType.value;
                 var eventDate = document.addEvent.eventDate.value;
                 var eventTime = document.addEvent.eventTime.value;
-                var registrationDeadline = document.addEvent.registrationDeadline.value;
                 var eventLocation = document.addEvent.eventLocation.value.trim();
                 var eventDescription = document.addEvent.eventDescription.value.trim();
                 var eventCapacity = document.addEvent.eventCapacity.value;
@@ -155,22 +147,11 @@
                     return false;
                 }
 
-                if (!registrationDeadline) {
-                    alert("Registration deadline is required. Please select the registration deadline.");
-                    return false;
-                }
-
                 var current = new Date();
                 var eventDateObj = new Date(eventDate);
-                var deadlineDateObj = new Date(registrationDeadline);
 
                 if (eventDateObj < current) {
                     alert("The event date must be in the future.");
-                    return false;
-                }
-
-                if (deadlineDateObj >= eventDateObj) {
-                    alert("The registration deadline must be before the event date.");
                     return false;
                 }
 

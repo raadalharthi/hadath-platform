@@ -85,8 +85,6 @@
                                     </li>
                                     <li><strong>Location:</strong>
                                         <?php echo htmlspecialchars($row['location'], ENT_QUOTES, 'UTF-8'); ?></li>
-                                    <li><strong>Registration Deadline:</strong>
-                                        <?php echo htmlspecialchars($row['registrationDeadline'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 </ul>
                             </div>
                             <?php
@@ -120,8 +118,6 @@
                                     <input type="hidden" value="<?php echo $row['capacity']; ?>" name="capacity" id="capacity" />
                                     <input type="hidden" value="<?php echo $row['numberOfRegistered']; ?>" name="numberOfRegistered"
                                         id="numberOfRegistered" />
-                                    <input type="hidden" value="<?php echo $row['registrationDeadline']; ?>" name="registrationDeadline"
-                                        id="registrationDeadline" />
                                     <input type="hidden" value="<?php echo $row['eventImage']; ?>" name="eventImage" id="eventImage" />
 
                                     <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit"

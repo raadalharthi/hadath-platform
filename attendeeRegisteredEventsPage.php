@@ -137,7 +137,6 @@
                                 <li><strong>Location:</strong> <?php echo htmlspecialchars($row['location'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Organizer:</strong> <?php echo htmlspecialchars($row['organizerName'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>College:</strong> <?php echo htmlspecialchars($collegeNames[$row['college']], ENT_QUOTES, 'UTF-8'); ?></li>
-                                <li><strong>Registration Deadline:</strong> <?php echo htmlspecialchars($row['registrationDeadline'], ENT_QUOTES, 'UTF-8'); ?></li>
                                 <li><strong>Attendance Status:</strong> <?php echo $attendanceStatus; ?></li>
                             </ul>
                         </div>

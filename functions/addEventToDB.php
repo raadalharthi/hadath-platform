@@ -19,11 +19,11 @@ $eventTitle = $_SESSION['eventTitle'];
 $eventType = $_SESSION['eventType'];
 $eventDate = $_SESSION['eventDate'];
 $eventTime = $_SESSION['eventTime'];
-$registrationDeadline = $_SESSION['registrationDeadline'];
 $eventLocation = $_SESSION['eventLocation'];
 $eventDescription = $_SESSION['eventDescription'];
 $eventCapacity = $_SESSION['eventCapacity'];
 $organizerID = $_SESSION['organizerID'][0]; // Retrieve organizer ID from session
+
 
 // Event type names array
 $eventTypeNames = [
@@ -43,7 +43,7 @@ $eventTypeNames = [
 ];
 
 // Replace eventType acronym with full name
-$eventType = $eventTypeNames[$eventType] ?? 'Undefined Event Type';
+$eventTypeN = $eventTypeNames[$eventType] ?? 'Undefined Event Type';
 
 // Check if session variables are set
 if (empty($eventTitle) || empty($eventType)) {
@@ -51,12 +51,12 @@ if (empty($eventTitle) || empty($eventType)) {
 }
 
 // Insert the event data into the database
-$eventInsertSQL = "INSERT INTO events (title, eventType, date, time, location, description, organizerID, capacity, registrationDeadline, eventImage) 
+$eventInsertSQL = "INSERT INTO events (title, eventType, date, time, location, description, organizerID, capacity, eventImage) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 $eventInsertStmt = mysqli_prepare($conn, $eventInsertSQL);
 
 if ($eventInsertStmt) {
-    mysqli_stmt_bind_param($eventInsertStmt, "ssssssiiis", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $registrationDeadline, $image);
+    mysqli_stmt_bind_param($eventInsertStmt, "ssssssiiis", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $image);
     $executeResult = mysqli_stmt_execute($eventInsertStmt);
 
     if (!$executeResult) {
@@ -86,7 +86,7 @@ $notificationInsertSQL = "INSERT INTO notification (notificationType, message)
 $notificationInsertStmt = mysqli_prepare($conn, $notificationInsertSQL);
 
 if ($notificationInsertStmt) {
-    mysqli_stmt_bind_param($notificationInsertStmt, "ssss", $eventType, $eventTitle, $organizerName, $eventTime);
+    mysqli_stmt_bind_param($notificationInsertStmt, "ssss", $eventTypeN, $eventTitle, $organizerName, $eventTime);
     if (mysqli_stmt_execute($notificationInsertStmt)) {
         $notificationID = mysqli_insert_id($conn);
 
