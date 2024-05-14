@@ -23,6 +23,7 @@ $eventLocation = $_SESSION['eventLocation'];
 $eventDescription = $_SESSION['eventDescription'];
 $eventCapacity = $_SESSION['eventCapacity'];
 $organizerID = $_SESSION['organizerID'][0]; // Retrieve organizer ID from session
+$numberOfRegistered = 0;
 
 
 // Event type names array
@@ -51,12 +52,12 @@ if (empty($eventTitle) || empty($eventType)) {
 }
 
 // Insert the event data into the database
-$eventInsertSQL = "INSERT INTO events (title, eventType, date, time, location, description, organizerID, capacity, eventImage) 
+$eventInsertSQL = "INSERT INTO events (title, eventType, date, time, location, description, organizerID, capacity, eventImage, numberOfRegistered) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 $eventInsertStmt = mysqli_prepare($conn, $eventInsertSQL);
 
 if ($eventInsertStmt) {
-    mysqli_stmt_bind_param($eventInsertStmt, "ssssssiiis", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $image);
+    mysqli_stmt_bind_param($eventInsertStmt, "ssssssiisi", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $image, $numberOfRegistered);
     $executeResult = mysqli_stmt_execute($eventInsertStmt);
 
     if (!$executeResult) {

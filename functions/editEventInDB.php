@@ -23,7 +23,7 @@ $stmt = mysqli_prepare($conn, $sql);
 
 // Check if the statement was prepared successfully
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ssssssiiisi", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $image, $eventID);
+    mysqli_stmt_bind_param($stmt, "ssssssiisi", $eventTitle, $eventType, $eventDate, $eventTime, $eventLocation, $eventDescription, $organizerID, $eventCapacity, $image, $eventID);
     $executeResult = mysqli_stmt_execute($stmt);
 
     if ($executeResult) {
