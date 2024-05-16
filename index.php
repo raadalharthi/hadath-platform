@@ -1,28 +1,18 @@
-<!DOCTYPE html>
+<?php
 
-<html lang="en">
 
-<head>
-  <!-- Tab Title-->
-  <?php
-  $title = "Home Page";
-  include_once 'include/metaData.php';
-  ?>
-</head>
+session_start();
 
-<body>
-  <?php
+if (!empty($_SESSION['organizerID'])) {
+  header("Location: organizerMyEventsPage.php");
+}
 
-  //Page Navigation Bar
-  include_once 'include/navigationBar.php';
-  ?>
+elseif (!empty($_SESSION['attendeeID'])) {
+  header("Location: guestAttendeeEventsPage.php");
+}
 
-  <h1>index.php</h1>
+else {
+  header("Location: guestLoginPage.php");
+}
 
-  <?php
-  // Page footer
-  include_once 'include/footer.php';
-  ?>
-</body>
-
-</html>
+?>

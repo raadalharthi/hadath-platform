@@ -74,6 +74,18 @@
         die('Error preparing the query: ' . mysqli_error($conn));
     }
 
+        // Fetch rating information
+        $queryRatingInfo = "SELECT AVG(ratingValue) AS averageRating, COUNT(ratingValue) AS totalRatings FROM ratings WHERE eventID = ?";
+        if ($stmtRatingInfo = mysqli_prepare($conn, $queryRatingInfo)) {
+            mysqli_stmt_bind_param($stmtRatingInfo, 'i', $eventID);
+            mysqli_stmt_execute($stmtRatingInfo);
+            mysqli_stmt_bind_result($stmtRatingInfo, $averageRating, $totalRatings);
+            mysqli_stmt_fetch($stmtRatingInfo);
+            mysqli_stmt_close($stmtRatingInfo);
+        } else {
+            die('Error preparing the query: ' . mysqli_error($conn));
+        }
+        
     // Calculate age distribution
     $today = new DateTime();
     $ages = array_map(function ($date) use ($today) {
@@ -108,6 +120,18 @@
             echo "<tr><td>$age</td><td>$count</td></tr>";
         }
         ?>
+    </table>
+
+    <h3>Rating Information</h3>
+    <table>
+        <tr>
+            <th>Average Rating</th>
+            <th>Total Ratings</th>
+        </tr>
+        <tr>
+            <td><?php echo $averageRating; ?></td>
+            <td><?php echo $totalRatings; ?></td>
+        </tr>
     </table>
 
     <?php include_once 'include/footer.php'; ?>

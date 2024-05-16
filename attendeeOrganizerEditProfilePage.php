@@ -88,7 +88,7 @@ $title = "Edit Profile";
         <div class="form-content">
             <h3 class="login-heading mb-4 text-center">Edit Profile</h3>
 
-            <form name="editProfile" action="" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <form name="editProfile" action="./functions/attendeeOrganizerEditProfileValidation.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                 <input type="hidden" name="oldImage" value="<?php echo $profile_image; ?>">
 
                 <!-- Image Upload Section -->
@@ -228,5 +228,4 @@ $title = "Edit Profile";
         }
     </script>
 </body>
-
 </html>
