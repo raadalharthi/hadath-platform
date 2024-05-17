@@ -2,7 +2,7 @@
 session_start();
 
 // Database Connection
-require 'include/connection.php';
+require '../include/connection.php';
 
 // Retrieve form data
 $firstName = $_POST["firstName"] ?? "";

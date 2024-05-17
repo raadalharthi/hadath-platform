@@ -1,61 +1,96 @@
-<?php
-$title = "Edit Profile";
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <?php
     include_once 'include/metaData.php';
+    ?>
 
-    // Ensure that the user is either an attendee or organizer
-    if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
-        require_once 'include/accessDenied.php';
-    } else {
-        include_once 'include/navigationBar.php';
+<?php
+$title = "Edit Profile";
 
-        // Database Connection
-        require 'include/connection.php';
 
-        // Initialize variables
-        $first_name = $last_name = $email = $gender = $college = $birthDate = $profile_image = '';
-        $college_options = ['CCSIT', 'CBA', 'COE', 'ARCH', 'MED'];
-        $gender_options = ['M' => 'Male', 'F' => 'Female'];
+// Database Connection
+require 'include/connection.php';
 
-        // Fetch existing data based on session
-        if (!empty($_SESSION['organizerID'])) {
-            $organizerID = $_SESSION['organizerID'][0];
-            $sql = "SELECT organizerName, email, college, organizerImage FROM organizer WHERE organizerID = '$organizerID'";
-            $result = mysqli_query($conn, $sql);
+// Ensure that the user is either an attendee or organizer
+if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
+    require_once 'include/accessDenied.php';
+    exit;
+} else {
+    include_once 'include/navigationBar.php';
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $first_name = $row["organizerName"];
-                $email = $row["email"];
-                $college = $row["college"];
-                $profile_image = $row["organizerImage"];
+    // Initialize variables
+    $first_name = $last_name = $email = $gender = $college = $birthDate = $profile_image = '';
+    $college_options = ['CCSIT', 'CBA', 'COE', 'ARCH', 'MED'];
+    $gender_options = ['M' => 'Male', 'F' => 'Female'];
+    $error_messages = [];
+
+    // Fetch existing data based on session
+    if (!empty($_SESSION['organizerID'])) {
+        $organizerID = $_SESSION['organizerID'][0];
+        $sql = "SELECT organizerName, email, college, organizerImage FROM organizer WHERE organizerID = '$organizerID'";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $first_name = $row["organizerName"];
+            $email = $row["email"];
+            $college = $row["college"];
+            $profile_image = $row["organizerImage"];
+        }
+    } elseif (!empty($_SESSION['attendeeID'])) {
+        $attendeeID = $_SESSION['attendeeID'][0];
+        $sql = "SELECT firstName, lastName, email, gender, college, attendeeImage, birthDate FROM attendee WHERE attendeeID = '$attendeeID'";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $first_name = $row["firstName"];
+            $last_name = $row["lastName"];
+            $email = $row["email"];
+            $gender = $row["gender"];
+            $college = $row["college"];
+            $birthDate = $row["birthDate"];
+            $profile_image = $row["attendeeImage"];
+        }
+    }
+
+    // Handle profile update form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Validate form data
+        $error_messages = validateForm($_POST, $gender_options, $college_options);
+
+        if (empty($error_messages)) {
+            // No errors, process the form data
+            $firstName = $_POST['firstName'] ?? '';
+            $lastName = $_POST['lastName'] ?? '';
+            $organizerName = $_POST['organizerName'] ?? '';
+            $email = $_POST['email'];
+            $gender = $_POST['gender'] ?? '';
+            $college = $_POST['college'];
+            $birthDate = $_POST['birthDate'] ?? '';
+
+            // Handle file upload
+            $profile_image = handleFileUpload($_FILES['profileImage'], $profile_image);
+
+            // Update the database with the new profile information
+            if (!empty($_SESSION['organizerID'])) {
+                $updateSQL = "UPDATE organizer SET organizerName = '$organizerName', email = '$email', college = '$college', organizerImage = '$profile_image' WHERE organizerID = '$organizerID'";
+            } elseif (!empty($_SESSION['attendeeID'])) {
+                $updateSQL = "UPDATE attendee SET firstName = '$firstName', lastName = '$lastName', email = '$email', gender = '$gender', college = '$college', birthDate = '$birthDate', attendeeImage = '$profile_image' WHERE attendeeID = '$attendeeID'";
             }
-        } elseif (!empty($_SESSION['attendeeID'])) {
-            $attendeeID = $_SESSION['attendeeID'][0];
-            $sql = "SELECT firstName, lastName, email, gender, college, attendeeImage, birthDate FROM attendee WHERE attendeeID = '$attendeeID'";
-            $result = mysqli_query($conn, $sql);
 
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $first_name = $row["firstName"];
-                $last_name = $row["lastName"];
-                $email = $row["email"];
-                $gender = $row["gender"];
-                $college = $row["college"];
-                $birthDate = $row["birthDate"];
-                $profile_image = $row["attendeeImage"];
+            if (mysqli_query($conn, $updateSQL)) {
+                echo "Profile updated successfully.";
+            } else {
+                echo "Error updating profile: " . mysqli_error($conn);
             }
         }
-
-        // Handle profile update form submission
-        // ... (rest of the code remains the same)
     }
-    ?>
+}
+?>
+
     <title><?php echo $title; ?></title>
     <style>
         .form-container {
@@ -88,7 +123,7 @@ $title = "Edit Profile";
         <div class="form-content">
             <h3 class="login-heading mb-4 text-center">Edit Profile</h3>
 
-            <form name="editProfile" action="./functions/attendeeOrganizerEditProfileValidation.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <form name="editProfile" action="functions/attendeeOrganizerEditProfileValidation.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                 <input type="hidden" name="oldImage" value="<?php echo $profile_image; ?>">
 
                 <!-- Image Upload Section -->
@@ -101,26 +136,34 @@ $title = "Edit Profile";
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="organizerName" name="organizerName" placeholder="Organizer Name" value="<?php echo $first_name; ?>" required>
                         <label for="organizerName">Organizer Name<span style="color: red;"> *</span></label>
-                        <p id="errorOrganizerName" class="error-message"></p>
+                        <?php if (isset($error_messages['organizerName'])) { ?>
+                            <p class="error-message"><?php echo $error_messages['organizerName']; ?></p>
+                        <?php } ?>
                     </div>
                 <?php } else { ?>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" value="<?php echo $first_name; ?>" required>
                         <label for="firstName">First Name<span style="color: red;"> *</span></label>
-                        <p id="errorFirstName" class="error-message"></p>
+                        <?php if (isset($error_messages['firstName'])) { ?>
+                            <p class="error-message"><?php echo $error_messages['firstName']; ?></p>
+                        <?php } ?>
                     </div>
 
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" value="<?php echo $last_name; ?>" required>
                         <label for="lastName">Last Name<span style="color: red;"> *</span></label>
-                        <p id="errorLastName" class="error-message"></p>
+                        <?php if (isset($error_messages['lastName'])) { ?>
+                            <p class="error-message"><?php echo $error_messages['lastName']; ?></p>
+                        <?php } ?>
                     </div>
                 <?php } ?>
 
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $email; ?>" required>
                     <label for="email">Email<span style="color: red;"> *</span></label>
-                    <p id="errorEmail" class="error-message"></p>
+                    <?php if (isset($error_messages['email'])) { ?>
+                        <p class="error-message"><?php echo $error_messages['email']; ?></p>
+                    <?php } ?>
                 </div>
 
                 <?php if (!empty($_SESSION['attendeeID'])) { ?>
@@ -133,7 +176,9 @@ $title = "Edit Profile";
                             ?>
                         </select>
                         <label for="gender">Gender<span style="color: red;"> *</span></label>
-                        <p id="errorGender" class="error-message"></p>
+                        <?php if (isset($error_messages['gender'])) { ?>
+                            <p class="error-message"><?php echo $error_messages['gender']; ?></p>
+                        <?php } ?>
                     </div>
                 <?php } ?>
 
@@ -146,14 +191,18 @@ $title = "Edit Profile";
                         ?>
                     </select>
                     <label for="college">College<span style="color: red;"> *</span></label>
-                    <p id="errorCollege" class="error-message"></p>
+                    <?php if (isset($error_messages['college'])) { ?>
+                        <p class="error-message"><?php echo $error_messages['college']; ?></p>
+                    <?php } ?>
                 </div>
 
                 <?php if (!empty($_SESSION['attendeeID'])) { ?>
                     <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="birthDate" name="birthDate" value="<?php echo $birthDate; ?>" required>
                         <label for="birthDate">Birth Date<span style="color: red;"> *</span></label>
-                        <p id="errorBirthDate" class="error-message"></p>
+                        <?php if (isset($error_messages['birthDate'])) { ?>
+                            <p class="error-message"><?php echo $error_messages['birthDate']; ?></p>
+                        <?php } ?>
                     </div>
                 <?php } ?>
 
@@ -164,68 +213,145 @@ $title = "Edit Profile";
         </div>
     </div>
     <?php include_once 'include/footer.php'; ?>
+
     <script>
         function validateForm() {
-            var firstName = document.getElementById("firstName") ? document.getElementById("firstName").value.trim() : "";
-            var lastName = document.getElementById("lastName") ? document.getElementById("lastName").value.trim() : "";
-            var organizerName = document.getElementById("organizerName") ? document.getElementById("organizerName").value.trim() : "";
-            var email = document.getElementById("email").value.trim();
-            var gender = document.getElementById("gender") ? document.getElementById("gender").value : "";
-            var college = document.getElementById("college").value;
-            var birthDate = document.getElementById("birthDate") ? document.getElementById("birthDate").value : "";
-            var error = false;
+            var firstName = document.forms["editProfile"]["firstName"].value.trim();
+            var lastName = document.forms["editProfile"]["lastName"].value.trim();
+            var organizerName = document.forms["editProfile"]["organizerName"].value.trim();
+            var email = document.forms["editProfile"]["email"].value.trim();
+            var gender = document.forms["editProfile"]["gender"].value;
+            var college = document.forms["editProfile"]["college"].value;
+            var birthDate = document.forms["editProfile"]["birthDate"].value;
 
-            // Clear previous error messages
-            if (document.getElementById("errorFirstName")) document.getElementById("errorFirstName").innerText = "";
-            if (document.getElementById("errorLastName")) document.getElementById("errorLastName").innerText = "";
-            if (document.getElementById("errorOrganizerName")) document.getElementById("errorOrganizerName").innerText = "";
-            document.getElementById("errorEmail").innerText = "";
-            if (document.getElementById("errorGender")) document.getElementById("errorGender").innerText = "";
-            document.getElementById("errorCollege").innerText = "";
-            if (document.getElementById("errorBirthDate")) document.getElementById("errorBirthDate").innerText = "";
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var namePattern = /^[A-Za-z\s]+$/;
 
-            if (firstName === "" && lastName === "" && organizerName === "") {
-                if (document.getElementById("errorFirstName")) document.getElementById("errorFirstName").innerText = "First Name is required.";
-                if (document.getElementById("errorLastName")) document.getElementById("errorLastName").innerText = "Last Name is required.";
-                if (document.getElementById("errorOrganizerName")) document.getElementById("errorOrganizerName").innerText = "Organizer Name is required.";
-                error = true;
-            } else if (firstName === "" && lastName === "") {
-                if (document.getElementById("errorFirstName")) document.getElementById("errorFirstName").innerText = "First Name is required.";
-                if (document.getElementById("errorLastName")) document.getElementById("errorLastName").innerText = "Last Name is required.";
-                error = true;
-            } else if (organizerName === "") {
-                if (document.getElementById("errorOrganizerName")) document.getElementById("errorOrganizerName").innerText = "Organizer Name is required.";
-                error = true;
-            }
+            if (<?php echo empty($_SESSION['organizerID']) ? 'true' : 'false'; ?>) {
+                if (firstName === "") {
+                    alert("First Name is required.");
+                    return false;
+                } else if (!namePattern.test(firstName)) {
+                    alert("First Name can only contain letters and spaces.");
+                    return false;
+                }
 
-            if (email === "") {
-                document.getElementById("errorEmail").innerText = "Email is required.";
-                error = true;
+                if (lastName === "") {
+                    alert("Last Name is required.");
+                    return false;
+                } else if (!namePattern.test(lastName)) {
+                    alert("Last Name can only contain letters and spaces.");
+                    return false;
+                }
             } else {
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(email)) {
-                    document.getElementById("errorEmail").innerText = "Invalid email format.";
-                    error = true;
+                if (organizerName === "") {
+                    alert("Organizer Name is required.");
+                    return false;
+                } else if (!namePattern.test(organizerName)) {
+                    alert("Organizer Name can only contain letters and spaces.");
+                    return false;
                 }
             }
 
-            if (gender === "") {
-                if (document.getElementById("errorGender")) document.getElementById("errorGender").innerText = "Gender is required.";
-                error = true;
+            if (email === "") {
+                alert("Email is required.");
+                return false;
+            } else if (!emailPattern.test(email)) {
+                alert("Invalid email format. Email should be in the format something@something.something");
+                return false;
             }
+
+            <?php if (!empty($_SESSION['attendeeID'])) { ?>
+            if (gender === "") {
+                alert("Gender is required.");
+                return false;
+            }
+            <?php } ?>
 
             if (college === "") {
-                document.getElementById("errorCollege").innerText = "College is required.";
-                error = true;
+                alert("College is required.");
+                return false;
             }
 
+            <?php if (!empty($_SESSION['attendeeID'])) { ?>
             if (birthDate === "") {
-                if (document.getElementById("errorBirthDate")) document.getElementById("errorBirthDate").innerText = "Birth Date is required.";
-                error = true;
+                alert("Birth Date is required.");
+                return false;
             }
+            <?php } ?>
 
-            return !error; // Only submit if no errors
+            return true;
         }
     </script>
 </body>
 </html>
+
+<?php
+function validateForm($formData, $genderOptions, $collegeOptions)
+{
+    $error_messages = [];
+
+    // Validate first name, last name, and organizer name
+    if (empty($formData['firstName']) && empty($formData['lastName']) && empty($formData['organizerName'])) {
+        $error_messages['firstName'] = "First Name is required.";
+        $error_messages['lastName'] = "Last Name is required.";
+        $error_messages['organizerName'] = "Organizer Name is required.";
+    } elseif (empty($formData['firstName']) && empty($formData['lastName'])) {
+        $error_messages['firstName'] = "First Name is required.";
+        $error_messages['lastName'] = "Last Name is required.";
+    } elseif (empty($formData['organizerName'])) {
+        $error_messages['organizerName'] = "Organizer Name is required.";
+    }
+
+    // Validate email
+    if (empty($formData['email'])) {
+        $error_messages['email'] = "Email is required.";
+    } elseif (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
+        $error_messages['email'] = "Invalid email format.";
+    }
+
+    // Validate gender
+    if (!empty($_SESSION['attendeeID']) && !isset($genderOptions[$formData['gender']])) {
+        $error_messages['gender'] = "Gender is required.";
+    }
+
+    // Validate college
+    if (!in_array($formData['college'], $collegeOptions)) {
+        $error_messages['college'] = "College is required.";
+    }
+
+    // Validate birth date
+    if (!empty($_SESSION['attendeeID']) && empty($formData['birthDate'])) {
+        $error_messages['birthDate'] = "Birth Date is required.";
+    }
+
+    return $error_messages;
+}
+
+function handleFileUpload($file, $currentImage)
+{
+    $uploadDir = 'uploads/'; // Specify the upload directory
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (in_array($fileExtension, $allowedExtensions)) {
+            $newFileName = uniqid() . '.' . $fileExtension;
+            $uploadPath = $uploadDir . $newFileName;
+
+            if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+                // Remove the old image file if it exists
+                if (!empty($currentImage) && file_exists($currentImage)) {
+                    unlink($currentImage);
+                }
+
+                return $uploadPath;
+            }
+        }
+    }
+}
+
+// If no new file was uploaded or the upload failed, return the current
+
+?>

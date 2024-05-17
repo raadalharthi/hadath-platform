@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function updateProfileInDB($firstName, $lastName, $organizerName, $email, $gender, $college, $birthDate)
 {
     // Database Connection
-    require 'include/connection.php';
+    require '../include/connection.php';
 
     // Update attendee profile
     if (!empty($_SESSION['attendeeID'])) {
