@@ -67,7 +67,7 @@ $messages = [];
         } else {
 
             $_SESSION['email'] = $email;
-
+            $_SESSION['userType'] = $userType;
             // Redirect to OTP verification page on successful validation
             echo "<script type='text/javascript'>";
             echo "window.location.href = 'sendOTP.php';";
