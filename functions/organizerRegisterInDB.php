@@ -16,6 +16,20 @@ if (isset($_POST['enterdOTP'])) {
 
         require_once '../include/connection.php';
 
+        // Check if the email is already registered in the attendee table
+        $sql = "SELECT * FROM attendee WHERE email = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            // Email is already registered in the attendee table
+            $_SESSION['error_message'] = 'Email is already registered as an attendee.';
+            header('Location: ../organizerRegistrationPage.php'); // Redirect to the organizer registration page
+            exit();
+        }
+
         // Insert the user data into the database, using the hashed password
         $sql = "INSERT INTO organizer (organizerName, email, password, college, organizerImage) VALUES ('$organizerName', '$email', '$hashedPassword', '$college', '$image');";
         $result = mysqli_query($conn, $sql);
@@ -27,7 +41,6 @@ if (isset($_POST['enterdOTP'])) {
         if (empty($_SESSION['organizerID'])) {
             $_SESSION['organizerID'] = array();
         }
-
         $sql = "SELECT organizerID  FROM organizer WHERE email = ? AND password = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
@@ -53,4 +66,3 @@ if (isset($_POST['enterdOTP'])) {
     header('Location: ../otpVerificationPage.php'); // Adjust based on your form page
     exit();
 }
-?>

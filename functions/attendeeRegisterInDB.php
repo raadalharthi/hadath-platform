@@ -20,31 +20,48 @@ if (isset($_POST['enterdOTP'])) {
 
         require_once '../include/connection.php';
 
-        // Insert the user data into the database, using the hashed password
-        $sql = "INSERT INTO attendee (firstName, lastName, email, password, gender, college, attendeeImage, birthDate) VALUES ('$firstName', '$lastName', '$email', '$hashedPassword', '$gender', '$college', '$image', '$birthDate');";
-        $result = mysqli_query($conn, $sql);
-
-        session_destroy();
-
-        session_start();
-
-        if (empty($_SESSION['attendeeID'])) {
-            $_SESSION['attendeeID'] = array();
-        }
-
-        $sql = "SELECT attendeeID  FROM attendee WHERE email = ? AND password = ?";
+        // Check if the email is already registered in the organizer table
+        $sql = "SELECT * FROM organizer WHERE email = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
+        mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $id = $row['attendeeID'];
-        array_push($_SESSION['attendeeID'], $id);
+        if (mysqli_num_rows($result) > 0) {
+            // Email is already registered in the organizer table
+            $_SESSION['error_message'] = 'Email is already registered as an organizer.';
+            header('Location: ../registrationPage.php'); // Adjust this to your registration form page
+            exit();
+        } else {
+            // Email is not registered in the organizer table, proceed with attendee registration
+            // Insert the user data into the database, using the hashed password
+            $sql = "INSERT INTO attendee (firstName, lastName, email, password, gender, college, attendeeImage, birthDate) VALUES ('$firstName', '$lastName', '$email', '$hashedPassword', '$gender', '$college', '$image', '$birthDate');";
+            $result = mysqli_query($conn, $sql);
 
-        // Redirect to the home/index page after successful registration
-        header('Location: ../index.php');
-        exit();
+            session_destroy();
+
+            session_start();
+
+            if (empty($_SESSION['attendeeID'])) {
+                $_SESSION['attendeeID'] = array();
+            }
+
+            $sql = "SELECT attendeeID  FROM attendee WHERE email = ? AND password = ?";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $id = $row['attendeeID'];
+            array_push($_SESSION['attendeeID'], $id);
+
+            // Redirect to the home/index page after successful registration
+            header('Location: ../index.php');
+            exit();
+        }
+
+        mysqli_stmt_close($stmt);
     } else {
         // OTP is incorrect, set an error message and redirect back to the OTP page
         $_SESSION['error_message'] = 'Invalid OTP. Please try again.';
@@ -57,5 +74,3 @@ if (isset($_POST['enterdOTP'])) {
     header('Location: ../otpVerificationPage.php'); // Adjust based on your form page
     exit();
 }
-
-?>
