@@ -1,6 +1,5 @@
 <?php
 
-
 // Flag to track validation status
 $validationPassed = true;
 $messages = [];
@@ -46,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "SELECT email FROM organizer WHERE email = '$email'";
         $result = mysqli_query($conn, $query);
 
+        // Check if the email is registered in the attendee table
+        $queryAttendee = "SELECT email FROM attendee WHERE email = '$email'";
+        $resultAttendee = mysqli_query($conn, $queryAttendee);
 
         $organizerNamePattern = "/^[A-Za-z ]+$/";
         $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
@@ -90,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0 || mysqli_num_rows($resultAttendee) > 0) {
         $messages[] = "This email is already registered. Please use a different email.";
         $validationPassed = false;
     }
@@ -142,4 +144,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: ../organizerSignupPage.php');
     exit;
 }
-?>

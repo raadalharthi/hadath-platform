@@ -46,9 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pass = mysqli_real_escape_string($conn, $pass);
         $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
 
-        // Query the database to find if the email is already registered
-        $query = "SELECT email FROM attendee WHERE email = '$email'";
+        // Query the database to find if the email is already registered in attendee or organizer table
+        $query = "SELECT email FROM attendee WHERE email = '$email' UNION SELECT email FROM organizer WHERE email = '$email'";
         $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+            $messages[] = "This email is already registered. Please use a different email.";
+            $validationPassed = false;
+        }
 
         $namePattern = "/^[A-Za-z]+$/";
         $emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
@@ -127,11 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validationPassed = false;
     }
 
-    if (mysqli_num_rows($result) > 0) {
-        $messages[] = "This email is already registered. Please use a different email.";
-        $validationPassed = false;
-    }
-
     if (empty($pass)) {
         $messages[] = "Password not provided. Please enter your password.";
         $validationPassed = false;
@@ -182,5 +182,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: ../attendeeSignupPage.php');
     exit;
 }
-
 ?>
