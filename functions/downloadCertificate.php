@@ -15,16 +15,13 @@ if (isset($_POST['eventID']) && isset($_SESSION['attendeeID']) && !is_array($_SE
         // Page header
         function Header()
         {
-            $this->SetFont('Arial', 'B', 12);
-            $this->Cell(0, 10, 'Certificate of Participation', 0, 1, 'C');
+            // No header content
         }
 
         // Page footer
         function Footer()
         {
-            $this->SetY(-15);
-            $this->SetFont('Arial', 'I', 8);
-            $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+            // No footer content
         }
     }
 
@@ -40,11 +37,11 @@ if (isset($_POST['eventID']) && isset($_SESSION['attendeeID']) && !is_array($_SE
         mysqli_stmt_close($attendeeStmt);
 
         // Fetch event information
-        $eventSql = "SELECT title, date, time, location, organizerID FROM events WHERE eventID = ?";
+        $eventSql = "SELECT title, date, time, organizerID FROM events WHERE eventID = ?";
         $eventStmt = mysqli_prepare($conn, $eventSql);
         mysqli_stmt_bind_param($eventStmt, 'i', $eventID);
         mysqli_stmt_execute($eventStmt);
-        mysqli_stmt_bind_result($eventStmt, $eventTitle, $eventDate, $eventTime, $location, $organizerID);
+        mysqli_stmt_bind_result($eventStmt, $eventTitle, $eventDate, $eventTime, $organizerID);
         mysqli_stmt_fetch($eventStmt);
         mysqli_stmt_close($eventStmt);
 
@@ -57,21 +54,28 @@ if (isset($_POST['eventID']) && isset($_SESSION['attendeeID']) && !is_array($_SE
         mysqli_stmt_fetch($organizerStmt);
         mysqli_stmt_close($organizerStmt);
 
-        // Instantiate the PDF class and add a page
-        $pdf = new PDF();
+        // Instantiate the PDF class and add a page in landscape mode
+        $pdf = new PDF('L'); // Pass 'L' for landscape orientation
         $pdf->AliasNbPages();
         $pdf->AddPage();
 
+        // Load the certificate template image
+        $templateImage = 'fpdf/certificateTemplate.png'; // Adjust the path if needed
+        $pdf->Image($templateImage, 0, 0, $pdf->GetPageWidth(), $pdf->GetPageHeight());
+
         // Set the title and attendee name
-        $pdf->SetFont('Times', 'B', 14);
-        $pdf->Cell(0, 10, "Event: " . htmlspecialchars($eventTitle), 0, 1, 'C');
-        $pdf->Cell(0, 10, "Attendee: " . htmlspecialchars($firstName) . " " . htmlspecialchars($lastName), 0, 1, 'C');
+        $pdf->SetFont('Courier', 'B', 30);
+        $pdf->SetXY(0, 142.5); // Adjust the X and Y coordinates as needed
+        $pdf->Cell(0, 10, htmlspecialchars($eventTitle), 0, 1, 'C');
+        $pdf->SetXY(0, 115); // Adjust the X and Y coordinates as needed
+        $pdf->Cell(0, 10, htmlspecialchars($firstName) . " " . htmlspecialchars($lastName), 0, 1, 'C');
 
         // Set additional event details
-        $pdf->SetFont('Times', '', 12);
-        $pdf->Cell(0, 10, "Organized by: " . htmlspecialchars($organizerName), 0, 1, 'C');
-        $pdf->Cell(0, 10, "On: " . htmlspecialchars($eventDate) . " at " . htmlspecialchars($eventTime), 0, 1, 'C');
-        $pdf->Cell(0, 10, "At: " . htmlspecialchars($location), 0, 1, 'C');
+        $pdf->SetFont('Courier', 'B', 25);
+        $pdf->SetXY(-100, 175); // Adjust the X and Y coordinates as needed
+        $pdf->Cell(-280, 10, htmlspecialchars($organizerName), 0, 0, 'C');
+        $pdf->SetXY(-90, 175); // Adjust the X and Y coordinates as needed
+        $pdf->Cell(0, 10, htmlspecialchars($eventDate), 0, 1, 'C');
 
         // Output the PDF to the browser for download
         $pdf->Output('D', 'Certificate_' . $attendeeID . '_' . $eventID . '.pdf');
