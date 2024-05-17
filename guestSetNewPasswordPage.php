@@ -29,7 +29,7 @@
                                 <div class="col-md-9 col-lg-8 mx-auto">
                                     <h3 class="login-heading mb-4">Please enter your new password</h3>
 
-                                    <form name="login" action="functions/resetPassword.php" onsubmit="return validation()"
+                                    <form name="login" action="functions/resetPasswordValidationPass.php" onsubmit="return validation()"
                                         method="POST">
                                         <div class="form-floating mb-3">
                                             <input type="password" class="form-control" id="pass" name="pass"

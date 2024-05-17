@@ -6,6 +6,7 @@ $organizerName = $_SESSION['organizerName'];
 $college = $_SESSION['college'];
 $email = $_SESSION['email'];
 $pass = $_SESSION['pass'];
+$hashedPassword = md5($pass);
 
 if (isset($_POST['enterdOTP'])) {
     $userOtp = $_POST['enterdOTP'];
@@ -16,7 +17,7 @@ if (isset($_POST['enterdOTP'])) {
         require_once '../include/connection.php';
 
         // Insert the user data into the database, using the hashed password
-        $sql = "INSERT INTO organizer (organizerName, email, password, college, organizerImage) VALUES ('$organizerName', '$email', '$pass', '$college', '$image');";
+        $sql = "INSERT INTO organizer (organizerName, email, password, college, organizerImage) VALUES ('$organizerName', '$email', '$hashedPassword', '$college', '$image');";
         $result = mysqli_query($conn, $sql);
 
         session_destroy();
@@ -29,7 +30,7 @@ if (isset($_POST['enterdOTP'])) {
 
         $sql = "SELECT organizerID  FROM organizer WHERE email = ? AND password = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $pass);
+        mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
@@ -52,5 +53,4 @@ if (isset($_POST['enterdOTP'])) {
     header('Location: ../otpVerificationPage.php'); // Adjust based on your form page
     exit();
 }
-
 ?>

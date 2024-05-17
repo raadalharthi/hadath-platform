@@ -16,11 +16,12 @@ if (!isset($_SESSION['attendeeID'])) {
 
 $email = $_POST['email'];
 $pass = $_POST['pass'];
+$hashedPassword = md5($pass);
 
 // Prepared statement for 'attendee' table
 $sqlAttendee = "SELECT * FROM attendee WHERE email = ? AND password = ?";
 $stmt = mysqli_prepare($conn, $sqlAttendee);
-mysqli_stmt_bind_param($stmt, "ss", $email, $pass);
+mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
 mysqli_stmt_execute($stmt);
 $resultAttendee = mysqli_stmt_get_result($stmt);
 $countAttendee = mysqli_num_rows($resultAttendee);
@@ -39,7 +40,7 @@ if ($countAttendee == 1) {
     // Prepared statement for 'organizer' table
     $sqlOrganizer = "SELECT * FROM organizer WHERE email = ? AND password = ?";
     $stmt = mysqli_prepare($conn, $sqlOrganizer);
-    mysqli_stmt_bind_param($stmt, "ss", $email, $pass);
+    mysqli_stmt_bind_param($stmt, "ss", $email, $hashedPassword);
     mysqli_stmt_execute($stmt);
     $resultOrganizer = mysqli_stmt_get_result($stmt);
     $countOrganizer = mysqli_num_rows($resultOrganizer);
@@ -60,5 +61,4 @@ if ($countAttendee == 1) {
         exit();
     }
 }
-
 ?>

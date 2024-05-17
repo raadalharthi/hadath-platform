@@ -5,13 +5,11 @@
 $validationPassed = true;
 $messages = [];
 
-$userType = $_POST['userType'];
-
-if ($userType == "Reset Password") {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         include('../include/connection.php');
 
+        $userType = $_POST['userType'];
         $email = $_POST['email'];
 
         // to prevent from mysqli injection
@@ -68,7 +66,6 @@ if ($userType == "Reset Password") {
             echo "</script>";
         } else {
 
-            $_SESSION['userType'] = $userType;
             $_SESSION['email'] = $email;
 
             // Redirect to OTP verification page on successful validation
@@ -81,66 +78,4 @@ if ($userType == "Reset Password") {
         header('Location: ../guestResetPasswordPage.php');
         exit;
     }
-}
-if ($userType == "Confirm New Password") {
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        include('../include/connection.php');
-
-        $pass = $_POST['pass'];
-        $confirmPassword = $_POST['confirmPassword'];
-
-        // to prevent from mysqli injection
-        $pass = stripcslashes($pass);
-        $confirmPassword = stripcslashes($confirmPassword);
-
-        $pass = mysqli_real_escape_string($conn, $pass);
-        $confirmPassword = mysqli_real_escape_string($conn, $confirmPassword);
-
-        $passwordPattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d]).{8,}$/";
-
-        if (empty($pass)) {
-            $messages[] = "Password not provided. Please enter your password.";
-            $validationPassed = false;
-        }
-
-        if (!preg_match($passwordPattern, $pass)) {
-            $messages[] = "Password must be at least 8 characters long and include uppercase and lowercase letters, a number, and a special character.";
-            $validationPassed = false;
-        }
-
-        if (empty($confirmPassword)) {
-            $messages[] = "Please re-enter your password.";
-            $validationPassed = false;
-        }
-
-        if ($pass !== $confirmPassword) {
-            $messages[] = "Passwords do not match.";
-            $validationPassed = false;
-        }
-
-        if (!$validationPassed) {
-            // Concatenate all messages into a single alert
-            $alertMessage = implode("\\n", $messages);
-            echo "<script type='text/javascript'>";
-            echo "alert('$alertMessage');";
-            echo "window.location.href = '../guestSetNewPasswordPage.php';";
-            echo "</script>";
-        } else {
-
-            session_start();
-            $_SESSION['userType'] = $userType;
-            $_SESSION['pass'] = $pass;
-
-            echo "<script type='text/javascript'>";
-            echo "window.location.href = 'resetPassword.php';";
-            echo "</script>";
-        }
-    } else {
-        // If the form is not submitted, redirect back to the signup page
-        header('Location: ../guestSetNewPasswordPage.php');
-        exit;
-    }
-}
 ?>

@@ -30,7 +30,7 @@
                                     <h3 class="login-heading mb-4">Please enter your email address</h3>
 
                                     <!-- Login Form -->
-                                    <form name="login" action="functions/resetPasswordValidation.php" onsubmit="return validation()"
+                                    <form name="login" action="functions/resetPasswordValidationEmail.php" onsubmit="return validation()"
                                         method="POST">
                                         <div class="form-floating mb-3">
                                             <input type="email" class="form-control" id="email" name="email"
