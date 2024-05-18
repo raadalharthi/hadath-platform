@@ -64,9 +64,12 @@ if (isset($_POST['eventID']) && isset($_SESSION['attendeeID']) && !is_array($_SE
         $pdf->Image($templateImage, 0, 0, $pdf->GetPageWidth(), $pdf->GetPageHeight());
 
         // Set the title and attendee name
-        $pdf->SetFont('Courier', 'B', 30);
+        $pdf->SetFont('Courier', 'B', 15);
         $pdf->SetXY(0, 142.5); // Adjust the X and Y coordinates as needed
         $pdf->Cell(0, 10, htmlspecialchars($eventTitle), 0, 1, 'C');
+
+        // Set the title and attendee name
+        $pdf->SetFont('Courier', 'B', 30);
         $pdf->SetXY(0, 115); // Adjust the X and Y coordinates as needed
         $pdf->Cell(0, 10, htmlspecialchars($firstName) . " " . htmlspecialchars($lastName), 0, 1, 'C');
 
