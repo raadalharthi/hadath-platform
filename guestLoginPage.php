@@ -32,18 +32,18 @@
                   <!-- Login Form -->
                   <form name="login" action="functions/authentication.php" onsubmit="return validation()" method="POST">
                     <div class="form-floating mb-3">
-                      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" value="<?php echo isset($_COOKIE['email']) ? $_COOKIE['email'] : ''; ?>">
                       <label for="email">Email address<span style="color: red;">
                           *</span></label>
                     </div>
                     <div class="form-floating mb-3">
-                      <input type="password" class="form-control" id="pass" name="pass" placeholder="Password">
+                      <input type="password" class="form-control" id="pass" name="pass" placeholder="Password" value="<?php echo isset($_COOKIE['password']) ? $_COOKIE['password'] : ''; ?>">
                       <label for="pass">Password<span style="color: red;">
                           *</span></label>
                     </div>
 
                     <div class="form-check mb-3">
-                      <input class="form-check-input" type="checkbox" value="" id="rememberMeCheck">
+                      <input class="form-check-input" type="checkbox" value="" id="rememberMeCheck" onclick="rememberMe()" <?php echo isset($_COOKIE['email']) && isset($_COOKIE['password']) ? 'checked' : ''; ?>>
                       <label class="form-check-label" for="rememberMeCheck">
                         Remember me
                       </label>
@@ -96,7 +96,48 @@
             return false;
           }
         }
-      }  
+      }
+
+      function rememberMe() {
+        var email = document.getElementById("email").value;
+        var pass = document.getElementById("pass").value;
+        var rememberMeCheckbox = document.getElementById("rememberMeCheck");
+
+        if (rememberMeCheckbox.checked) {
+          // Set cookies to store email and password for 3 days
+          var expirationDate = new Date();
+          expirationDate.setDate(expirationDate.getDate() + 3);
+          document.cookie = "email=" + email + "; expires=" + expirationDate.toUTCString() + "; path=/";
+          document.cookie = "password=" + pass + "; expires=" + expirationDate.toUTCString() + "; path=/";
+        } else {
+          // Remove cookies
+          document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+          document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        }
+      }
+
+      window.onload = function() {
+        var email = document.getElementById("email");
+        var pass = document.getElementById("pass");
+        var rememberMeCheckbox = document.getElementById("rememberMeCheck");
+
+        if (document.cookie.indexOf("email=") !== -1 && document.cookie.indexOf("password=") !== -1) {
+          rememberMeCheckbox.checked = true;
+          email.value = getCookie("email");
+          pass.value = getCookie("password");
+        }
+      }
+
+      function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+        for (var i = 0; i < cookieArr.length; i++) {
+          var cookiePair = cookieArr[i].split("=");
+          if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+          }
+        }
+        return null;
+      }
     </script>
 
     <?php

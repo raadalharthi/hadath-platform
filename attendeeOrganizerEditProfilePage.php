@@ -76,15 +76,25 @@ if (empty($_SESSION['organizerID']) && empty($_SESSION['attendeeID'])) {
 
             // Update the database with the new profile information
             if (!empty($_SESSION['organizerID'])) {
-                $updateSQL = "UPDATE organizer SET organizerName = '$organizerName', email = '$email', college = '$college', organizerImage = '$profile_image' WHERE organizerID = '$organizerID'";
+                $updateSQL = "UPDATE organizer SET organizerName = ?, email = ?, college = ?, organizerImage = ? WHERE organizerID = ?";
+                $stmt = mysqli_prepare($conn, $updateSQL);
+                mysqli_stmt_bind_param($stmt, "ssssi", $organizerName, $email, $college, $profile_image, $organizerID);
+                if (mysqli_stmt_execute($stmt)) {
+                    echo "Profile updated successfully.";
+                } else {
+                    echo "Error updating profile: " . mysqli_stmt_error($stmt);
+                }
+                mysqli_stmt_close($stmt);
             } elseif (!empty($_SESSION['attendeeID'])) {
-                $updateSQL = "UPDATE attendee SET firstName = '$firstName', lastName = '$lastName', email = '$email', gender = '$gender', college = '$college', birthDate = '$birthDate', attendeeImage = '$profile_image' WHERE attendeeID = '$attendeeID'";
-            }
-
-            if (mysqli_query($conn, $updateSQL)) {
-                echo "Profile updated successfully.";
-            } else {
-                echo "Error updating profile: " . mysqli_error($conn);
+                $updateSQL = "UPDATE attendee SET firstName = ?, lastName = ?, email = ?, gender = ?, college = ?, birthDate = ?, attendeeImage = ? WHERE attendeeID = ?";
+                $stmt = mysqli_prepare($conn, $updateSQL);
+                mysqli_stmt_bind_param($stmt, "sssssssi", $firstName, $lastName, $email, $gender, $college, $birthDate, $profile_image, $attendeeID);
+                if (mysqli_stmt_execute($stmt)) {
+                    echo "Profile updated successfully.";
+                } else {
+                    echo "Error updating profile: " . mysqli_stmt_error($stmt);
+                }
+                mysqli_stmt_close($stmt);
             }
         }
     }
@@ -350,8 +360,9 @@ function handleFileUpload($file, $currentImage)
             }
         }
     }
-}
 
-// If no new file was uploaded or the upload failed, return the current
+    // If no new file was uploaded or the upload failed, return the current image path
+    return $currentImage;
+}
 
 ?>
